@@ -73,7 +73,7 @@
     <div
       v-for="(value, index) in form.scenario"
       :key="index"
-      class="edit-wrapper"
+      class="edit-wrapper border-color-blue-300"
     >
       <p>シナリオ</p>
       <div class="edit-input">
@@ -100,7 +100,7 @@
       <div
         v-for="(val, idx) in value.characters"
         :key="idx"
-        class="edit-wrapper"
+        class="edit-wrapper border-color-blue-600"
       >
         <div class="edit-input">
           <label for="characterId">キャラクターID </label>
@@ -212,12 +212,19 @@ function AddCharacter(characters: Character[]) {
 }
 
 function DownloadJson() {
+  let filename = "";
+  if (/\.json$/.test(form.value.fileName)) {
+    filename = form.value.fileName;
+  } else {
+    filename = `${form.value.fileName}.json`;
+  }
+
   const json = JSON.stringify(form.value, null, "  ");
   const blob = new Blob([json], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.setAttribute("href", url);
-  a.setAttribute("download", "chapter.json");
+  a.setAttribute("download", filename);
   a.click();
   a.remove();
 }
@@ -252,5 +259,13 @@ function UploadJson(event: any) {
 button {
   display: block;
   margin: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.border-color-blue-300 {
+  border-color: #a2b8d7;
+}
+
+.border-color-blue-600 {
+  border-color: #3579d7;
 }
 </style>
