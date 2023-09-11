@@ -2,8 +2,15 @@
   <div>
     <h1>シナリオ編集</h1>
 
-    <button @click="DownloadJson">シナリオファイル出力</button>
-    <button @click="uploadJson.click()">シナリオファイル読込</button>
+    <button class="btn-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
+      シナリオファイル出力
+    </button>
+    <button
+      class="btn-block btn-mg-x btn-mg-bottom"
+      @click="uploadJson.click()"
+    >
+      シナリオファイル読込
+    </button>
     <input
       type="file"
       name="upload-json"
@@ -12,6 +19,16 @@
       @input="UploadJson"
       hidden
     />
+
+    <div class="edit-input">
+      <label for="fileName">シナリオを生成 </label>
+      <div style="display: flex">
+        <input id="fileName" type="number" v-model="createScenarioCount" />
+        <button class="btn-block btn-mg-x" @click="CreateScenarioNumber">
+          生成する
+        </button>
+      </div>
+    </div>
 
     <!-- チャプター編集 -->
     <div class="edit-input">
@@ -83,7 +100,13 @@
 
       <div class="edit-input">
         <label for="message">メッセージ </label>
-        <input id="message" type="text" v-model="value.message" />
+        <textarea
+          name="message"
+          id="message"
+          cols="50"
+          rows="5"
+          v-model="value.message"
+        ></textarea>
       </div>
 
       <div class="edit-input">
@@ -142,15 +165,34 @@
             </option>
           </select>
         </div>
-        <button @click="DeleteCharacter(value, idx)">キャラクター削除</button>
+        <button
+          class="btn-block btn-mg-x btn-mg-bottom"
+          @click="DeleteCharacter(value, idx)"
+        >
+          キャラクター削除
+        </button>
       </div>
-      <button @click="AddCharacter(value.characters)">キャラクター追加</button>
+      <button
+        class="btn-block btn-mg-x btn-mg-bottom"
+        @click="AddCharacter(value.characters)"
+      >
+        キャラクター追加
+      </button>
 
-      <button @click="DeleteScenario(index)">シナリオ削除</button>
+      <button
+        class="btn-block btn-mg-x btn-mg-bottom"
+        @click="DeleteScenario(index)"
+      >
+        シナリオ削除
+      </button>
     </div>
 
-    <button @click="AddScenario">シナリオ追加</button>
-    <button @click="DownloadJson">シナリオファイル出力</button>
+    <button class="btn-block btn-mg-x btn-mg-bottom" @click="AddScenario">
+      シナリオ追加
+    </button>
+    <button class="btn-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
+      シナリオファイル出力
+    </button>
   </div>
 </template>
 <script setup lang="ts">
@@ -240,6 +282,19 @@ function UploadJson(event: any) {
     form.value = json;
   };
 }
+
+const createScenarioCount = ref(0);
+function CreateScenarioNumber() {
+  form.value.scenario = [];
+  for (let index = 0; index < createScenarioCount.value; index++) {
+    form.value.scenario.push({
+      name: "",
+      message: "",
+      talkingCharacterId: "",
+      characters: [],
+    });
+  }
+}
 </script>
 <style>
 .edit-wrapper {
@@ -256,9 +311,17 @@ function UploadJson(event: any) {
   display: block;
 }
 
-button {
+.btn-block {
   display: block;
-  margin: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.btn-mg-x {
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.btn-mg-bottom {
+  margin-bottom: 0.5rem;
 }
 
 .border-color-blue-300 {
