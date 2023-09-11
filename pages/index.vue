@@ -2,7 +2,17 @@
   <div>
     <h1>シナリオ編集</h1>
 
-    <button @click="DownloadJson()">シナリオファイル出力</button>
+    <button @click="DownloadJson">シナリオファイル出力</button>
+    <button @click="uploadJson.click()">シナリオファイル読込</button>
+    <input
+      type="file"
+      name="upload-json"
+      id="upload-json"
+      ref="uploadJson"
+      @input="UploadJson"
+      hidden
+    />
+
     <!-- チャプター編集 -->
     <div class="edit-input">
       <label for="fileName">ファイル名 </label>
@@ -139,8 +149,8 @@
       <button @click="DeleteScenario(index)">シナリオ削除</button>
     </div>
 
-    <button @click="AddScenario()">シナリオ追加</button>
-    <button @click="DownloadJson()">シナリオファイル出力</button>
+    <button @click="AddScenario">シナリオ追加</button>
+    <button @click="DownloadJson">シナリオファイル出力</button>
   </div>
 </template>
 <script setup lang="ts">
@@ -162,8 +172,8 @@ const effectOptions = [
   { label: "右退場", value: "leave-right" },
   { label: "左退場", value: "leave-left" },
 ];
-
-const form = reactive<Chapter>({
+const uploadJson = ref();
+const form = ref<Chapter>({
   fileName: "",
   title: "",
   chapterNo: 0,
@@ -175,11 +185,11 @@ const form = reactive<Chapter>({
 });
 
 function DeleteScenario(index: number) {
-  form.scenario.splice(index, 1);
+  form.value.scenario.splice(index, 1);
 }
 
 function AddScenario() {
-  form.scenario.push({
+  form.value.scenario.push({
     name: "",
     message: "",
     talkingCharacterId: "",
@@ -188,7 +198,7 @@ function AddScenario() {
 }
 
 function DeleteCharacter(scenario: Scenario, index: number) {
-  scenario.characters = scenario.characters.filter(
+  scenario.characters = (scenario.characters as Character[]).filter(
     (value, idx) => idx != index
   );
 }
@@ -202,7 +212,7 @@ function AddCharacter(characters: Character[]) {
 }
 
 function DownloadJson() {
-  const json = JSON.stringify(form, null, "  ");
+  const json = JSON.stringify(form.value, null, "  ");
   const blob = new Blob([json], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -210,6 +220,18 @@ function DownloadJson() {
   a.setAttribute("download", "chapter.json");
   a.click();
   a.remove();
+}
+
+function UploadJson(event: any) {
+  const file = event.target.files[0];
+  event.file = null;
+  const reader = new FileReader();
+
+  reader.readAsText(file);
+  reader.onload = function (event: any) {
+    const json = JSON.parse(event.target?.result);
+    form.value = json;
+  };
 }
 </script>
 <style>
