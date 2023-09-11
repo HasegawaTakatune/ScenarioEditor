@@ -90,7 +90,7 @@
     <div
       v-for="(value, index) in form.scenario"
       :key="index"
-      class="edit-wrapper border-color-blue-300"
+      class="edit-wrapper border-color-blue-300 bg-color-blue-100"
     >
       <p>シナリオ</p>
       <div class="edit-input">
@@ -123,7 +123,7 @@
       <div
         v-for="(val, idx) in value.characters"
         :key="idx"
-        class="edit-wrapper border-color-blue-600"
+        class="edit-wrapper border-color-blue-600 bg-color-blue-400"
       >
         <div class="edit-input">
           <label for="characterId">キャラクターID </label>
@@ -297,6 +297,10 @@ function CreateScenarioNumber() {
 }
 </script>
 <style>
+html {
+  background-color: #f1feff;
+}
+
 .edit-wrapper {
   border: solid;
   padding: 0.5rem 0.5rem 0 0.5rem;
@@ -330,5 +334,13 @@ function CreateScenarioNumber() {
 
 .border-color-blue-600 {
   border-color: #3579d7;
+}
+
+.bg-color-blue-100 {
+  background-color: #d3f3ff;
+}
+
+.bg-color-blue-400 {
+  background-color: #9cc1ff;
 }
 </style>
