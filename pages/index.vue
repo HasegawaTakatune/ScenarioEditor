@@ -23,7 +23,12 @@
     <div class="edit-input">
       <label for="fileName">シナリオを生成 </label>
       <div style="display: flex">
-        <input id="fileName" type="number" v-model="createScenarioCount" />
+        <input
+          id="fileName"
+          type="number"
+          class="edit-content"
+          v-model="createScenarioCount"
+        />
         <button class="btn-block btn-mg-x" @click="CreateScenarioNumber">
           生成する
         </button>
@@ -36,6 +41,7 @@
       <input
         id="fileName"
         type="text"
+        class="edit-content"
         v-model="form.fileName"
         placeholder=".json"
       />
@@ -43,12 +49,17 @@
 
     <div class="edit-input">
       <label for="title">タイトル </label>
-      <input id="title" type="text" v-model="form.title" />
+      <input id="title" type="text" class="edit-content" v-model="form.title" />
     </div>
 
     <div class="edit-input">
       <label for="chapterNo">チャプター番号 </label>
-      <input id="chapterNo" type="number" v-model="form.chapterNo" />
+      <input
+        id="chapterNo"
+        type="number"
+        class="edit-content"
+        v-model="form.chapterNo"
+      />
     </div>
 
     <div class="edit-input">
@@ -56,6 +67,7 @@
       <input
         id="backgroundImagePath"
         type="text"
+        class="edit-content"
         v-model="form.backgroundImagePath"
         placeholder=".png .jpg .jpeg"
       />
@@ -66,6 +78,7 @@
       <input
         id="bgmPath"
         type="text"
+        class="edit-content"
         v-model="form.bgmPath"
         placeholder=".wav"
       />
@@ -73,15 +86,20 @@
 
     <div class="edit-input">
       <label for="nextChapter">次のチャプター名 </label>
-      <input id="nextChapter" type="text" v-model="form.nextChapter" />
+      <input
+        id="nextChapter"
+        type="text"
+        class="edit-content"
+        v-model="form.nextChapter"
+      />
     </div>
 
     <div class="edit-input">
       <label for="keepScene">前のシーンを維持する </label>
       <input
+        id="keepScene"
         type="checkbox"
         name="keepScene"
-        id="keepScene"
         v-model="form.keepScene"
       />
     </div>
@@ -95,7 +113,12 @@
       <p>シナリオ</p>
       <div class="edit-input">
         <label for="name">キャラクタ名 </label>
-        <input id="name" type="text" v-model="value.name" />
+        <input
+          id="name"
+          type="text"
+          class="edit-content"
+          v-model="value.name"
+        />
       </div>
 
       <div class="edit-input">
@@ -111,10 +134,54 @@
 
       <div class="edit-input">
         <label for="talkingCharacterId">話しているキャラクターID </label>
-        <input
+        <select
+          name="talkingCharacterId"
+          id="talkingCharacterId"
+          class="edit-content"
+          v-model="value.talkingCharacterId"
+        >
+          <option
+            v-for="(option, index) in characterIdOptions"
+            :key="index"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+        <!-- <input
           id="talkingCharacterId"
           type="text"
           v-model="value.talkingCharacterId"
+        /> -->
+      </div>
+
+      <div class="edit-input">
+        <label for="name">背景画像ファイル名 </label>
+        <input
+          id="name"
+          type="text"
+          class="edit-content"
+          v-model="value.backgroundImagePath"
+        />
+      </div>
+
+      <div class="edit-input">
+        <label for="name">BGMファイル名 </label>
+        <input
+          id="name"
+          type="text"
+          class="edit-content"
+          v-model="value.bgmPath"
+        />
+      </div>
+
+      <div class="edit-input">
+        <label for="name">SEファイル名 </label>
+        <input
+          id="name"
+          type="text"
+          class="edit-content"
+          v-model="value.sePath"
         />
       </div>
 
@@ -127,7 +194,12 @@
       >
         <div class="edit-input">
           <label for="characterId">キャラクターID </label>
-          <input id="characterId" type="text" v-model="val.id" />
+          <input
+            id="characterId"
+            type="text"
+            class="edit-content"
+            v-model="val.id"
+          />
         </div>
 
         <div class="edit-input">
@@ -135,6 +207,7 @@
           <input
             id="imagePath"
             type="text"
+            class="edit-content"
             v-model="val.imagePath"
             placeholder=".png .jpg .jpeg"
           />
@@ -142,7 +215,12 @@
 
         <div class="edit-input">
           <label for="position">座標 </label>
-          <select name="position" id="position" v-model="val.position">
+          <select
+            name="position"
+            id="position"
+            class="edit-content"
+            v-model="val.position"
+          >
             <option
               v-for="(option, i) in positionOptions"
               :value="option.value"
@@ -155,7 +233,12 @@
 
         <div class="edit-input">
           <label for="effect">エフェクト </label>
-          <select name="effect" id="effect" v-model="val.effect">
+          <select
+            name="effect"
+            id="effect"
+            class="edit-content"
+            v-model="val.effect"
+          >
             <option
               v-for="(option, i) in effectOptions"
               :value="option.value"
@@ -226,6 +309,25 @@ const form = ref<Chapter>({
   scenario: [],
 });
 
+const characterIdOptions = computed(() => {
+  let options: string[] = [];
+  form.value.scenario?.forEach((value: Scenario) => {
+    const result = value.characters
+      .filter((vl: Character) => {
+        return typeof vl.id == "string" && vl.id != "";
+      })
+      .map((vl: Character) => {
+        return {
+          label: vl.id,
+          value: vl.id,
+        };
+      });
+    options = options.concat(result);
+  });
+
+  return options;
+});
+
 function DeleteScenario(index: number) {
   form.value.scenario.splice(index, 1);
 }
@@ -292,6 +394,9 @@ function CreateScenarioNumber() {
       message: "",
       talkingCharacterId: "",
       characters: [],
+      backgroundImagePath: "",
+      bgmPath: "",
+      sePath: "",
     });
   }
 }
@@ -313,6 +418,10 @@ html {
 
 .edit-input label {
   display: block;
+}
+
+.edit-content {
+  width: 20%;
 }
 
 .btn-block {

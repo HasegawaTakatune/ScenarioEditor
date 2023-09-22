@@ -13,6 +13,9 @@ export type Character = {
 export type Scenario = {
   name: string;
   message: string;
+  backgroundImagePath: string;
+  bgmPath: string;
+  sePath: string;
   talkingCharacterId: string;
   characters: Character[];
 };
