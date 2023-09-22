@@ -310,7 +310,7 @@ const form = ref<Chapter>({
 });
 
 const characterIdOptions = computed(() => {
-  let options: string[] = [];
+  let options: any[] = [];
   form.value.scenario?.forEach((value: Scenario) => {
     const result = value.characters
       .filter((vl: Character) => {
