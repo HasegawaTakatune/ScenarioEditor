@@ -1,4 +1,5 @@
 export type Character = {
+  name: string;
   id: string;
   imagePath: string;
   position: {

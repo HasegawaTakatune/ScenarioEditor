@@ -2,106 +2,121 @@
   <div>
     <h1>シナリオ編集</h1>
 
-    <button class="btn-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
-      シナリオファイル出力
-    </button>
-    <button
-      class="btn-block btn-mg-x btn-mg-bottom"
-      @click="uploadJson.click()"
-    >
-      シナリオファイル読込
-    </button>
-    <input
-      type="file"
-      name="upload-json"
-      id="upload-json"
-      ref="uploadJson"
-      @input="UploadJson"
-      hidden
-    />
-
-    <div class="edit-input">
-      <label for="fileName">シナリオを生成 </label>
-      <div style="display: flex">
-        <input
-          id="fileName"
-          type="number"
-          class="edit-content"
-          v-model="createScenarioCount"
-        />
-        <button class="btn-block btn-mg-x" @click="CreateScenarioNumber">
-          生成する
+    <div>
+      <div class="d-flex">
+        <button class="d-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
+          シナリオファイル出力
         </button>
+        <button
+          class="d-block btn-mg-x btn-mg-bottom"
+          @click="uploadJson.click()"
+        >
+          シナリオファイル読込
+        </button>
+        <input
+          type="file"
+          name="upload-json"
+          id="upload-json"
+          ref="uploadJson"
+          @input="UploadJson"
+          hidden
+        />
+      </div>
+
+      <div class="d-flex">
+        <div class="edit-input">
+          <label for="fileName">シナリオを生成 </label>
+          <div style="display: flex">
+            <input
+              id="fileName"
+              type="number"
+              class=""
+              v-model="createScenarioCount"
+            />
+            <button class="d-block btn-mg-x" @click="CreateScenarioNumber">
+              生成する
+            </button>
+          </div>
+        </div>
+
+        <!-- チャプター編集 -->
+        <div class="edit-input">
+          <label for="fileName">ファイル名 </label>
+          <input
+            id="fileName"
+            type="text"
+            class=""
+            v-model="form.fileName"
+            placeholder=".json"
+          />
+        </div>
       </div>
     </div>
 
-    <!-- チャプター編集 -->
-    <div class="edit-input">
-      <label for="fileName">ファイル名 </label>
-      <input
-        id="fileName"
-        type="text"
-        class="edit-content"
-        v-model="form.fileName"
-        placeholder=".json"
-      />
-    </div>
+    <div>
+      <div class="edit-input">
+        <label for="title">タイトル </label>
+        <input id="title" type="text" class="" v-model="form.title" />
+      </div>
 
-    <div class="edit-input">
-      <label for="title">タイトル </label>
-      <input id="title" type="text" class="edit-content" v-model="form.title" />
-    </div>
+      <div class="edit-input">
+        <label for="chapterNo">チャプター番号 </label>
+        <input id="chapterNo" type="number" class="" v-model="form.chapterNo" />
+      </div>
 
-    <div class="edit-input">
-      <label for="chapterNo">チャプター番号 </label>
-      <input
-        id="chapterNo"
-        type="number"
-        class="edit-content"
-        v-model="form.chapterNo"
-      />
-    </div>
+      <div class="edit-input">
+        <label for="firstBackgroundImagePath">背景画像ファイル名 </label>
 
-    <div class="edit-input">
-      <label for="backgroundImagePath">背景画像ファイル名 </label>
-      <input
-        id="backgroundImagePath"
-        type="text"
-        class="edit-content"
-        v-model="form.backgroundImagePath"
-        placeholder=".png .jpg .jpeg"
-      />
-    </div>
+        <input
+          id="firstBackgroundImagePath"
+          type="text"
+          class=""
+          v-model="form.backgroundImagePath"
+          placeholder=".png .jpg .jpeg"
+        />
 
-    <div class="edit-input">
-      <label for="bgmPath">BGMファイル名 </label>
-      <input
-        id="bgmPath"
-        type="text"
-        class="edit-content"
-        v-model="form.bgmPath"
-        placeholder=".wav"
-      />
-    </div>
+        <button class="btn-mg-x" @click="refFirstBackgroundImagePath.click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refFirstBackgroundImagePath"
+          type="file"
+          accept=".png,.jpg,.jpeg"
+          @input="form.backgroundImagePath = UploadResourceFile($event)"
+          hidden
+        />
+      </div>
 
-    <div class="edit-input">
-      <label for="nextChapter">次のチャプター名 </label>
-      <input
-        id="nextChapter"
-        type="text"
-        class="edit-content"
-        v-model="form.nextChapter"
-      />
-    </div>
+      <div class="edit-input">
+        <label for="bgmPath">BGMファイル名 </label>
+        <input
+          id="bgmPath"
+          type="text"
+          class=""
+          v-model="form.bgmPath"
+          placeholder=".wav"
+        />
+      </div>
 
-    <div class="edit-input">
-      <label for="keepScene">前のシーンを維持する </label>
-      <input
-        id="keepScene"
-        type="checkbox"
-        name="keepScene"
-        v-model="form.keepScene"
-      />
+      <div class="edit-input">
+        <label for="nextChapter">次のチャプター名 </label>
+        <input
+          id="nextChapter"
+          type="text"
+          class=""
+          v-model="form.nextChapter"
+        />
+      </div>
+
+      <div class="edit-input">
+        <label for="keepScene">前のシーンを維持する </label>
+        <input
+          id="keepScene"
+          type="checkbox"
+          name="keepScene"
+          v-model="form.keepScene"
+        />
+      </div>
     </div>
 
     <!-- シナリオ編集 -->
@@ -111,33 +126,17 @@
       class="edit-wrapper border-color-blue-300 bg-color-blue-100"
     >
       <p>シナリオ</p>
-      <div class="edit-input">
+      <!-- <div class="edit-input">
         <label for="name">キャラクタ名 </label>
-        <input
-          id="name"
-          type="text"
-          class="edit-content"
-          v-model="value.name"
-        />
-      </div>
-
-      <div class="edit-input">
-        <label for="message">メッセージ </label>
-        <textarea
-          name="message"
-          id="message"
-          cols="50"
-          rows="5"
-          v-model="value.message"
-        ></textarea>
-      </div>
+        <input id="name" type="text" class="" v-model="value.name" />
+      </div> -->
 
       <div class="edit-input">
         <label for="talkingCharacterId">話しているキャラクターID </label>
         <select
           name="talkingCharacterId"
           id="talkingCharacterId"
-          class="edit-content"
+          class="w-50per"
           v-model="value.talkingCharacterId"
         >
           <option
@@ -156,33 +155,34 @@
       </div>
 
       <div class="edit-input">
+        <label for="message">メッセージ </label>
+        <textarea
+          name="message"
+          id="message"
+          cols="50"
+          rows="5"
+          v-model="value.message"
+        ></textarea>
+      </div>
+
+      <div class="edit-input">
         <label for="name">背景画像ファイル名 </label>
         <input
           id="name"
           type="text"
-          class="edit-content"
+          class=""
           v-model="value.backgroundImagePath"
         />
       </div>
 
       <div class="edit-input">
         <label for="name">BGMファイル名 </label>
-        <input
-          id="name"
-          type="text"
-          class="edit-content"
-          v-model="value.bgmPath"
-        />
+        <input id="name" type="text" class="" v-model="value.bgmPath" />
       </div>
 
       <div class="edit-input">
         <label for="name">SEファイル名 </label>
-        <input
-          id="name"
-          type="text"
-          class="edit-content"
-          v-model="value.sePath"
-        />
+        <input id="name" type="text" class="" v-model="value.sePath" />
       </div>
 
       <p>キャラクター</p>
@@ -193,13 +193,13 @@
         class="edit-wrapper border-color-blue-600 bg-color-blue-400"
       >
         <div class="edit-input">
+          <label for="name">キャラクタ名 </label>
+          <input id="name" type="text" class="" v-model="val.name" />
+        </div>
+
+        <div class="edit-input">
           <label for="characterId">キャラクターID </label>
-          <input
-            id="characterId"
-            type="text"
-            class="edit-content"
-            v-model="val.id"
-          />
+          <input id="characterId" type="text" class="" v-model="val.id" />
         </div>
 
         <div class="edit-input">
@@ -207,7 +207,7 @@
           <input
             id="imagePath"
             type="text"
-            class="edit-content"
+            class=""
             v-model="val.imagePath"
             placeholder=".png .jpg .jpeg"
           />
@@ -215,12 +215,7 @@
 
         <div class="edit-input">
           <label for="position">座標 </label>
-          <select
-            name="position"
-            id="position"
-            class="edit-content"
-            v-model="val.position"
-          >
+          <select name="position" id="position" class="" v-model="val.position">
             <option
               v-for="(option, i) in positionOptions"
               :value="option.value"
@@ -233,12 +228,7 @@
 
         <div class="edit-input">
           <label for="effect">エフェクト </label>
-          <select
-            name="effect"
-            id="effect"
-            class="edit-content"
-            v-model="val.effect"
-          >
+          <select name="effect" id="effect" class="" v-model="val.effect">
             <option
               v-for="(option, i) in effectOptions"
               :value="option.value"
@@ -249,37 +239,41 @@
           </select>
         </div>
         <button
-          class="btn-block btn-mg-x btn-mg-bottom"
+          class="d-block btn-mg-x btn-mg-bottom btn-right"
           @click="DeleteCharacter(value, idx)"
         >
           キャラクター削除
         </button>
       </div>
       <button
-        class="btn-block btn-mg-x btn-mg-bottom"
+        class="d-block btn-mg-x btn-mg-bottom btn-left"
         @click="AddCharacter(value.characters)"
       >
         キャラクター追加
       </button>
 
       <button
-        class="btn-block btn-mg-x btn-mg-bottom"
+        class="d-block btn-mg-x btn-mg-bottom btn-right"
         @click="DeleteScenario(index)"
       >
         シナリオ削除
       </button>
     </div>
 
-    <button class="btn-block btn-mg-x btn-mg-bottom" @click="AddScenario">
-      シナリオ追加
-    </button>
-    <button class="btn-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
-      シナリオファイル出力
-    </button>
+    <div class="d-flex">
+      <button class="d-block btn-mg-x btn-mg-bottom" @click="AddScenario">
+        シナリオ追加
+      </button>
+      <button class="d-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
+        シナリオファイル出力
+      </button>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { Chapter, Scenario, Character } from "types/TChapter.ts";
+
+const refFirstBackgroundImagePath = ref();
 
 const positionOptions = [
   { label: "-", value: "" },
@@ -309,6 +303,7 @@ const form = ref<Chapter>({
   scenario: [],
 });
 
+// 話しているキャラクタの選択肢生成
 const characterIdOptions = computed(() => {
   let options: any[] = [];
   form.value.scenario?.forEach((value: Scenario) => {
@@ -318,7 +313,7 @@ const characterIdOptions = computed(() => {
       })
       .map((vl: Character) => {
         return {
-          label: vl.id,
+          label: vl.name,
           value: vl.id,
         };
       });
@@ -328,10 +323,12 @@ const characterIdOptions = computed(() => {
   return options;
 });
 
+// シナリオ入力項目の削除
 function DeleteScenario(index: number) {
   form.value.scenario.splice(index, 1);
 }
 
+// シナリオ入力項目の追加
 function AddScenario() {
   form.value.scenario.push({
     name: "",
@@ -341,12 +338,14 @@ function AddScenario() {
   });
 }
 
+// キャラクタ入力項目の削除
 function DeleteCharacter(scenario: Scenario, index: number) {
   scenario.characters = (scenario.characters as Character[]).filter(
     (value, idx) => idx != index
   );
 }
 
+// キャラクタ入力項目の追加
 function AddCharacter(characters: Character[]) {
   characters.push({
     id: "",
@@ -355,6 +354,7 @@ function AddCharacter(characters: Character[]) {
   });
 }
 
+// JSONファイルの生成・ダウンロード
 function DownloadJson() {
   let filename = "";
   if (/\.json$/.test(form.value.fileName)) {
@@ -373,6 +373,7 @@ function DownloadJson() {
   a.remove();
 }
 
+// JSONファイルから編集内容の復元
 function UploadJson(event: any) {
   const file = event.target.files[0];
   event.file = null;
@@ -385,6 +386,7 @@ function UploadJson(event: any) {
   };
 }
 
+// 要素数分のシナリオ入力項目の追加
 const createScenarioCount = ref(0);
 function CreateScenarioNumber() {
   form.value.scenario = [];
@@ -400,6 +402,13 @@ function CreateScenarioNumber() {
     });
   }
 }
+
+function UploadResourceFile(event: any) {
+  const file = event.target.files[0];
+  const fileName = file.name;
+  event.target.files = null;
+  return fileName;
+}
 </script>
 <style>
 html {
@@ -408,7 +417,7 @@ html {
 
 .edit-wrapper {
   border: solid;
-  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.5rem 0.5rem 2rem 0.5rem;
   margin-bottom: 0.5rem;
 }
 
@@ -420,12 +429,16 @@ html {
   display: block;
 }
 
-.edit-content {
-  width: 20%;
+.w-50per {
+  width: 50%;
 }
 
-.btn-block {
+.d-block {
   display: block;
+}
+
+.d-flex {
+  display: flex;
 }
 
 .btn-mg-x {
@@ -435,6 +448,14 @@ html {
 
 .btn-mg-bottom {
   margin-bottom: 0.5rem;
+}
+
+.btn-left {
+  float: left;
+}
+
+.btn-right {
+  float: right;
 }
 
 .border-color-blue-300 {
