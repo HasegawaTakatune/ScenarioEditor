@@ -98,6 +98,17 @@
           v-model="form.bgmPath"
           placeholder=".wav"
         />
+
+        <button class="btn-mg-x" @click="refFirstBGMPath.click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refFirstBGMPath"
+          type="file"
+          accept=".wav"
+          @input="form.bgmPath = UploadResourceFile($event)"
+          hidden
+        />
       </div>
 
       <div class="edit-input">
@@ -146,8 +157,8 @@
           "
         >
           <option
-            v-for="(option, index) in characterIdOptions"
-            :key="index"
+            v-for="(option, idx) in characterIdOptions"
+            :key="idx"
             :value="option.value"
           >
             {{ option.label }}
@@ -173,17 +184,63 @@
           type="text"
           class=""
           v-model="value.backgroundImagePath"
+          placeholder=".png .jpg .jpeg"
+        />
+
+        <button class="btn-mg-x" @click="refBackgroundImagePath[index].click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refBackgroundImagePath"
+          type="file"
+          accept=".png,.jpg,.jpeg"
+          @input="value.backgroundImagePath = UploadResourceFile($event)"
+          hidden
         />
       </div>
 
       <div class="edit-input">
         <label for="name">BGMファイル名 </label>
-        <input id="name" type="text" class="" v-model="value.bgmPath" />
+        <input
+          id="name"
+          type="text"
+          class=""
+          v-model="value.bgmPath"
+          placeholder=".wav"
+        />
+
+        <button class="btn-mg-x" @click="refBGMPath[index].click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refBGMPath"
+          type="file"
+          accept=".wav"
+          @input="value.bgmPath = UploadResourceFile($event)"
+          hidden
+        />
       </div>
 
       <div class="edit-input">
         <label for="name">SEファイル名 </label>
-        <input id="name" type="text" class="" v-model="value.sePath" />
+        <input
+          id="name"
+          type="text"
+          class=""
+          v-model="value.sePath"
+          placeholder=".wav"
+        />
+
+        <button class="btn-mg-x" @click="refSEPath[index].click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refSEPath"
+          type="file"
+          accept=".wav"
+          @input="value.sePath = UploadResourceFile($event)"
+          hidden
+        />
       </div>
 
       <p>キャラクター</p>
@@ -211,6 +268,20 @@
             class=""
             v-model="val.imagePath"
             placeholder=".png .jpg .jpeg"
+          />
+
+          <button
+            class="btn-mg-x"
+            @click="refCharacterImagePath[index].click()"
+          >
+            ファイル選択
+          </button>
+          <input
+            ref="refCharacterImagePath"
+            type="file"
+            accept=".png,.jpg,.jpeg"
+            @input="val.imagePath = UploadResourceFile($event)"
+            hidden
           />
         </div>
 
@@ -275,6 +346,13 @@
 import { Chapter, Scenario, Character } from "types/TChapter.ts";
 
 const refFirstBackgroundImagePath = ref();
+const refFirstBGMPath = ref();
+
+const refBackgroundImagePath = ref();
+const refBGMPath = ref();
+const refSEPath = ref();
+
+const refCharacterImagePath = ref();
 
 const positionOptions = [
   { label: "-", value: "" },
