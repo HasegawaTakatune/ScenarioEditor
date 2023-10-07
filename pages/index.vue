@@ -126,10 +126,6 @@
       class="edit-wrapper border-color-blue-300 bg-color-blue-100"
     >
       <p>シナリオ</p>
-      <!-- <div class="edit-input">
-        <label for="name">キャラクタ名 </label>
-        <input id="name" type="text" class="" v-model="value.name" />
-      </div> -->
 
       <div class="edit-input">
         <label for="talkingCharacterId">話しているキャラクターID </label>
@@ -138,6 +134,14 @@
           id="talkingCharacterId"
           class="w-50per"
           v-model="value.talkingCharacterId"
+          @input="
+            (event: any) => {
+              const option = characterIdOptions.find((vl) => vl.value == event.target.value);
+              if (option) {
+                value.name = option.label;
+              }
+            }
+          "
         >
           <option
             v-for="(option, index) in characterIdOptions"
@@ -147,11 +151,6 @@
             {{ option.label }}
           </option>
         </select>
-        <!-- <input
-          id="talkingCharacterId"
-          type="text"
-          v-model="value.talkingCharacterId"
-        /> -->
       </div>
 
       <div class="edit-input">
@@ -309,7 +308,11 @@ const characterIdOptions = computed(() => {
   form.value.scenario?.forEach((value: Scenario) => {
     const result = value.characters
       .filter((vl: Character) => {
-        return typeof vl.id == "string" && vl.id != "";
+        return (
+          typeof vl.id == "string" &&
+          vl.id != "" &&
+          !options.find((element) => element.value == vl.id)
+        );
       })
       .map((vl: Character) => {
         return {
