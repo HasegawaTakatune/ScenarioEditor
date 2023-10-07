@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h1>シナリオ編集</h1>
+    <div class="header">
+      <h1>シナリオ編集</h1>
 
-    <div>
       <div class="d-flex">
         <button class="d-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
           シナリオファイル出力
@@ -23,33 +23,35 @@
         />
       </div>
 
-      <div class="d-flex">
-        <div class="edit-input">
-          <label for="fileName">シナリオを生成 </label>
-          <div style="display: flex">
-            <input
-              id="fileName"
-              type="number"
-              class=""
-              v-model="createScenarioCount"
-            />
-            <button class="d-block btn-mg-x" @click="CreateScenarioNumber">
-              生成する
-            </button>
-          </div>
-        </div>
+      <button class="d-block btn-mg-x btn-mg-bottom" @click="AddScenario">
+        シナリオ追加
+      </button>
 
-        <!-- チャプター編集 -->
-        <div class="edit-input">
-          <label for="fileName">ファイル名 </label>
+      <!-- <div class="edit-input">
+        <label for="fileName">シナリオを生成 </label>
+        <div style="display: flex">
           <input
             id="fileName"
-            type="text"
+            type="number"
             class=""
-            v-model="form.fileName"
-            placeholder=".json"
+            v-model="createScenarioCount"
           />
+          <button class="d-block btn-mg-x" @click="CreateScenarioNumber">
+            生成する
+          </button>
         </div>
+      </div> -->
+
+      <!-- チャプター編集 -->
+      <div class="edit-input">
+        <label for="fileName">ファイル名 </label>
+        <input
+          id="fileName"
+          type="text"
+          class=""
+          v-model="form.fileName"
+          placeholder=".json"
+        />
       </div>
     </div>
 
@@ -259,14 +261,14 @@
       </button>
     </div>
 
-    <div class="d-flex">
+    <!-- <div class="d-flex">
       <button class="d-block btn-mg-x btn-mg-bottom" @click="AddScenario">
         シナリオ追加
       </button>
       <button class="d-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
         シナリオファイル出力
       </button>
-    </div>
+    </div> -->
   </div>
 </template>
 <script setup lang="ts">
@@ -416,6 +418,13 @@ function UploadResourceFile(event: any) {
 <style>
 html {
   background-color: #f1feff;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: #acacff;
+  padding: 1rem;
 }
 
 .edit-wrapper {
