@@ -27,21 +27,6 @@
         シナリオ追加
       </button>
 
-      <!-- <div class="edit-input">
-        <label for="fileName">シナリオを生成 </label>
-        <div style="display: flex">
-          <input
-            id="fileName"
-            type="number"
-            class=""
-            v-model="createScenarioCount"
-          />
-          <button class="d-block btn-mg-x" @click="CreateScenarioNumber">
-            生成する
-          </button>
-        </div>
-      </div> -->
-
       <!-- チャプター編集 -->
       <div class="edit-input">
         <label for="fileName">ファイル名 </label>
@@ -331,15 +316,6 @@
         シナリオ削除
       </button>
     </div>
-
-    <!-- <div class="d-flex">
-      <button class="d-block btn-mg-x btn-mg-bottom" @click="AddScenario">
-        シナリオ追加
-      </button>
-      <button class="d-block btn-mg-x btn-mg-bottom" @click="DownloadJson">
-        シナリオファイル出力
-      </button>
-    </div> -->
   </div>
 </template>
 <script setup lang="ts">
