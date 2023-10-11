@@ -126,11 +126,23 @@
       <p>シナリオ</p>
 
       <div class="edit-input">
-        <label for="talkingCharacterId">話しているキャラクターID </label>
+        <label>BGMを止める</label>
+        <input type="checkbox" v-model="value.isCharacterAllKill" />
+      </div>
+
+      <div class="edit-input">
+        <label>立ち絵全消し</label>
+        <input type="checkbox" v-model="value.isStopBGM" />
+      </div>
+
+      <div class="edit-input">
+        <label>話しているキャラクターID </label>
+
+        <input type="text" v-model="value.name" />
+
         <select
           name="talkingCharacterId"
-          id="talkingCharacterId"
-          class="w-50per"
+          class="w-10per"
           v-model="value.talkingCharacterId"
           @input="
             (event: any) => {
@@ -152,10 +164,9 @@
       </div>
 
       <div class="edit-input">
-        <label for="message">メッセージ </label>
+        <label>メッセージ </label>
         <textarea
           name="message"
-          id="message"
           cols="50"
           rows="5"
           v-model="value.message"
@@ -163,9 +174,8 @@
       </div>
 
       <div class="edit-input">
-        <label for="name">背景画像ファイル名 </label>
+        <label>背景画像ファイル名 </label>
         <input
-          id="name"
           type="text"
           class=""
           v-model="value.backgroundImagePath"
@@ -185,9 +195,8 @@
       </div>
 
       <div class="edit-input">
-        <label for="name">BGMファイル名 </label>
+        <label>BGMファイル名 </label>
         <input
-          id="name"
           type="text"
           class=""
           v-model="value.bgmPath"
@@ -207,14 +216,8 @@
       </div>
 
       <div class="edit-input">
-        <label for="name">SEファイル名 </label>
-        <input
-          id="name"
-          type="text"
-          class=""
-          v-model="value.sePath"
-          placeholder=".wav"
-        />
+        <label>SEファイル名 </label>
+        <input type="text" class="" v-model="value.sePath" placeholder=".wav" />
 
         <button class="btn-mg-x" @click="refSEPath[index].click()">
           ファイル選択
@@ -236,19 +239,18 @@
         class="edit-wrapper border-color-blue-600 bg-color-blue-400"
       >
         <div class="edit-input">
-          <label for="name">キャラクタ名 </label>
-          <input id="name" type="text" class="" v-model="val.name" />
+          <label>キャラクタ名 </label>
+          <input type="text" class="" v-model="val.name" />
         </div>
 
         <div class="edit-input">
-          <label for="characterId">キャラクターID </label>
-          <input id="characterId" type="text" class="" v-model="val.id" />
+          <label>キャラクターID </label>
+          <input type="text" class="" v-model="val.id" />
         </div>
 
         <div class="edit-input">
-          <label for="imagePath">キャラクター画像ファイル名 </label>
+          <label>キャラクター画像ファイル名 </label>
           <input
-            id="imagePath"
             type="text"
             class=""
             v-model="val.imagePath"
@@ -271,8 +273,8 @@
         </div>
 
         <div class="edit-input">
-          <label for="position">座標 </label>
-          <select name="position" id="position" class="" v-model="val.position">
+          <label>座標 </label>
+          <select name="position" class="" v-model="val.position">
             <option
               v-for="(option, i) in positionOptions"
               :value="option.value"
@@ -284,10 +286,10 @@
         </div>
 
         <div class="edit-input">
-          <label for="effect">エフェクト </label>
-          <select name="effect" id="effect" class="" v-model="val.effect">
+          <label>キャラ移動 </label>
+          <select name="moveEffect" class="" v-model="val.moveEffect">
             <option
-              v-for="(option, i) in effectOptions"
+              v-for="(option, i) in charaMoveOptions"
               :value="option.value"
               :key="i"
             >
@@ -295,6 +297,20 @@
             </option>
           </select>
         </div>
+
+        <div class="edit-input">
+          <label>キャラエフェクト </label>
+          <select name="effect" class="" v-model="val.effect">
+            <option
+              v-for="(option, i) in charaEffectOptions"
+              :value="option.value"
+              :key="i"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
         <button
           class="d-block btn-mg-x btn-mg-bottom btn-right"
           @click="DeleteCharacter(value, idx)"
@@ -339,13 +355,19 @@ const positionOptions = [
   { label: "右端", value: { x: 3, y: 0, z: 0 } },
 ];
 
-const effectOptions = [
+const charaMoveOptions = [
   { label: "-", value: "" },
   { label: "右入場", value: "enter-right" },
   { label: "左入場", value: "enter-left" },
   { label: "右退場", value: "leave-right" },
   { label: "左退場", value: "leave-left" },
 ];
+
+const charaEffectOptions = [
+  { label: "-", value: "" },
+  { label: "黒いオーラ", value: "black-aura" },
+];
+
 const uploadJson = ref();
 const form = ref<Chapter>({
   fileName: "",
@@ -409,6 +431,7 @@ function AddCharacter(characters: Character[]) {
   characters.push({
     id: "",
     position: "",
+    moveEffect: "",
     effect: "",
   });
 }
@@ -458,6 +481,8 @@ function CreateScenarioNumber() {
       backgroundImagePath: "",
       bgmPath: "",
       sePath: "",
+      isCharacterAllKill: false,
+      isStopBGM: false,
     });
   }
 }
@@ -495,8 +520,8 @@ html {
   display: block;
 }
 
-.w-50per {
-  width: 50%;
+.w-10per {
+  width: 10%;
 }
 
 .d-block {

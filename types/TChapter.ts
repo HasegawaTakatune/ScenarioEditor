@@ -7,8 +7,8 @@ export type Character = {
     y: number;
     z: number;
   };
-  // "more-left" | "left" | "center" | "right" | "more-right";
-  effect: "" | "enter-right" | "enter-left" | "leave-right" | "leave-left";
+  moveEffect: "" | "enter-right" | "enter-left" | "leave-right" | "leave-left";
+  effect: "" | "dark-aura";
 };
 
 export type Scenario = {
@@ -19,6 +19,8 @@ export type Scenario = {
   sePath: string;
   talkingCharacterId: string;
   characters: Character[];
+  isCharacterAllKill: boolean;
+  isStopBGM: boolean;
 };
 
 export type Chapter = {
