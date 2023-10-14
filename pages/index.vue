@@ -517,6 +517,12 @@ function UploadResourceFile(event: any) {
 }
 </script>
 <style>
+input[type="text"],
+textarea,
+select {
+  font-weight: bold;
+}
+
 html {
   background-color: #f1feff;
 }
