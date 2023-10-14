@@ -3,5 +3,8 @@ export default defineNuxtConfig({
   app: {
     baseURL: "/ScenarioEditor/",
   },
+  experimental: {
+    payloadExtraction: false,
+  },
   devtools: { enabled: true },
 });
