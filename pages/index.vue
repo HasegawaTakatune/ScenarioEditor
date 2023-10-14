@@ -174,6 +174,27 @@
       </div>
 
       <div class="edit-input">
+        <label>音声ファイル名 </label>
+        <input
+          type="text"
+          class=""
+          v-model="value.voicePath"
+          placeholder=".wav"
+        />
+
+        <button class="btn-mg-x" @click="refVoicePath[index].click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refVoicePath"
+          type="file"
+          accept=".wav"
+          @input="value.voicePath = UploadResourceFile($event)"
+          hidden
+        />
+      </div>
+
+      <div class="edit-input">
         <label>背景画像ファイル名 </label>
         <input
           type="text"
@@ -341,6 +362,7 @@ const refFirstBackgroundImagePath = ref();
 const refFirstBGMPath = ref();
 
 const refBackgroundImagePath = ref();
+const refVoicePath = ref();
 const refBGMPath = ref();
 const refSEPath = ref();
 
