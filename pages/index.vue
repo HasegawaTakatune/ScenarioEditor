@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <client-only>
     <div class="header">
       <h1>シナリオ編集</h1>
 
@@ -353,7 +353,7 @@
         シナリオ削除
       </button>
     </div>
-  </div>
+  </client-only>
 </template>
 <script setup lang="ts">
 import { Chapter, Scenario, Character } from "types/TChapter.ts";
