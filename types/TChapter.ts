@@ -13,6 +13,7 @@ export type Character = {
 
 export type Scenario = {
   name: string;
+  splashMessage: string;
   message: string;
   voicePath: string;
   backgroundImagePath: string;

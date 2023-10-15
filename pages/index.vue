@@ -164,6 +164,15 @@
       </div>
 
       <div class="edit-input">
+        <label>中央メッセージ </label>
+        <input
+          type="text"
+          class=""
+          v-model="value.splashMessage"
+        />
+      </div>
+
+      <div class="edit-input">
         <label>メッセージ </label>
         <textarea
           name="message"
