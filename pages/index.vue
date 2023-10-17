@@ -138,10 +138,7 @@
       <div class="edit-input">
         <label>画面エフェクト </label>
 
-        <select          
-          class="w-10per"
-          v-model="value.screenEffect"
-        >
+        <select class="w-10per" v-model="value.screenEffect">
           <option
             v-for="(option, idx) in screenEffectOptions"
             :key="idx"
@@ -182,11 +179,7 @@
 
       <div class="edit-input">
         <label>中央メッセージ </label>
-        <input
-          type="text"
-          class=""
-          v-model="value.splashMessage"
-        />
+        <input type="text" class="" v-model="value.splashMessage" />
       </div>
 
       <div class="edit-input">
@@ -290,9 +283,9 @@
           <input type="text" class="" v-model="val.name" />
 
           <select
-          class="w-10per"
-          v-model="val.id"
-          @input="
+            class="w-10per"
+            v-model="val.id"
+            @input="
             (event: any) => {
               const option = characterIdOptions.find((vl) => vl.value == event.target.value);
               if (option) {
@@ -300,15 +293,15 @@
               }
             }
           "
-        >
-          <option
-            v-for="(option, i) in characterIdOptions"
-            :key="i"
-            :value="option.value"
           >
-            {{ option.label }}
-          </option>
-        </select>
+            <option
+              v-for="(option, i) in characterIdOptions"
+              :key="i"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <div class="edit-input">
@@ -386,12 +379,19 @@
           キャラクター削除
         </button>
       </div>
-      <button
-        class="d-block btn-mg-x btn-mg-bottom btn-left"
-        @click="AddCharacter(value.characters)"
-      >
-        キャラクター追加
-      </button>
+
+      <div class="d-block btn-left">
+        <button
+          class="btn-mg-x btn-mg-bottom"
+          @click="AddCharacter(value.characters)"
+        >
+          キャラクター追加
+        </button>
+
+        <button class="btn-mg-x btn-mg-bottom" @click="AddScenarioToIndex(index + 1)">
+          シナリオ追加
+        </button>
+      </div>
 
       <button
         class="d-block btn-mg-x btn-mg-bottom btn-right"
@@ -426,7 +426,7 @@ const positionOptions = [
 
 const screenEffectOptions = [
   { label: "-", value: "" },
-  { label: "色褪せた印象", value: "lose-color" },  
+  { label: "色褪せた印象", value: "lose-color" },
 ];
 
 const charaMoveOptions = [
@@ -488,9 +488,33 @@ function AddScenario() {
   form.value.scenario.push({
     name: "",
     message: "",
+    voicePath: "",
+    backgroundImagePath: "",
+    bgmPath: "",
+    sePath: "",
     talkingCharacterId: "",
     characters: [],
+    isCharacterAllKill: false,
+    isStopBGM: false,
+    screenEffect: "",
   });
+}
+
+function AddScenarioToIndex(index: number){
+  const data = {
+    name: "",
+    message: "",
+    voicePath: "",
+    backgroundImagePath: "",
+    bgmPath: "",
+    sePath: "",
+    talkingCharacterId: "",
+    characters: [],
+    isCharacterAllKill: false,
+    isStopBGM: false,
+    screenEffect: "",
+  };
+  form.value.scenario.splice(index, 0, data);
 }
 
 // キャラクタ入力項目の削除
@@ -503,7 +527,9 @@ function DeleteCharacter(scenario: Scenario, index: number) {
 // キャラクタ入力項目の追加
 function AddCharacter(characters: Character[]) {
   characters.push({
+    name: "",
     id: "",
+    imagePath: "",
     position: "",
     moveEffect: "",
     effect: "",
