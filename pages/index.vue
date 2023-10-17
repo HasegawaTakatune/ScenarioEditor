@@ -136,6 +136,23 @@
       </div>
 
       <div class="edit-input">
+        <label>画面エフェクト </label>
+
+        <select          
+          class="w-10per"
+          v-model="value.screenEffect"
+        >
+          <option
+            v-for="(option, idx) in screenEffectOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="edit-input">
         <label>話しているキャラクターID </label>
 
         <input type="text" v-model="value.name" />
@@ -384,6 +401,11 @@ const positionOptions = [
   { label: "中央", value: { x: -3, y: 0, z: 0 } },
   { label: "右", value: { x: 0, y: 0, z: 0 } },
   { label: "右端", value: { x: 3, y: 0, z: 0 } },
+];
+
+const screenEffectOptions = [
+  { label: "-", value: "" },
+  { label: "色褪せた印象", value: "lose-color" },  
 ];
 
 const charaMoveOptions = [

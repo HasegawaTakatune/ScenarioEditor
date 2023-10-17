@@ -23,6 +23,7 @@ export type Scenario = {
   characters: Character[];
   isCharacterAllKill: boolean;
   isStopBGM: boolean;
+  screenEffect: ""| "lose-color";
 };
 
 export type Chapter = {
