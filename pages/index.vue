@@ -288,6 +288,27 @@
         <div class="edit-input">
           <label>キャラクタ名 </label>
           <input type="text" class="" v-model="val.name" />
+
+          <select
+          class="w-10per"
+          v-model="val.id"
+          @input="
+            (event: any) => {
+              const option = characterIdOptions.find((vl) => vl.value == event.target.value);
+              if (option) {
+                value.name = option.label;
+              }
+            }
+          "
+        >
+          <option
+            v-for="(option, i) in characterIdOptions"
+            :key="i"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
         </div>
 
         <div class="edit-input">
