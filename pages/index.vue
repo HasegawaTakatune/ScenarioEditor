@@ -309,6 +309,32 @@
           <input type="text" class="" v-model="val.id" />
         </div>
 
+        <div>
+          <button
+            v-for="(option, i) in charaNameOptions"
+            @click="
+              () => {
+                val.imagePath += option.value;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
+        <div>
+          <button
+            v-for="(option, i) in charaFaceOptions"
+            @click="
+              () => {
+                val.imagePath += `_${option.value}`;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
         <div class="edit-input">
           <label>キャラクター画像ファイル名 </label>
           <input
@@ -388,7 +414,10 @@
           キャラクター追加
         </button>
 
-        <button class="btn-mg-x btn-mg-bottom" @click="AddScenarioToIndex(index + 1)">
+        <button
+          class="btn-mg-x btn-mg-bottom"
+          @click="AddScenarioToIndex(index + 1)"
+        >
           シナリオ追加
         </button>
       </div>
@@ -426,7 +455,7 @@ const positionOptions = [
 
 const screenEffectOptions = [
   { label: "-", value: "" },
-  { label: "色褪せた印象", value: "lose-color" },
+  { label: "色褪せた印象", value: "sepia-color" },
 ];
 
 const charaMoveOptions = [
@@ -440,6 +469,41 @@ const charaMoveOptions = [
 const charaEffectOptions = [
   { label: "-", value: "" },
   { label: "黒いオーラ", value: "black-aura" },
+];
+
+const charaNameOptions = [
+  { label: "黒", value: "hei" },
+  { label: "紅", value: "hon" },
+  { label: "黄", value: "holan" },
+  { label: "青", value: "ran" },
+  { label: "緑", value: "ryuu" },
+  { label: "桃", value: "fenhon" },
+  { label: "白", value: "pai" },
+  { label: "紫", value: "zuu" },
+  { label: "橙", value: "chon" },
+  { label: "灰", value: "sului" },
+  { label: "銀", value: "inn" },
+  { label: "伊", value: "yi" },
+];
+
+const charaFaceOptions = [
+  { label: "普通", value: "normal" },
+  { label: "微笑み", value: "smile" },
+  { label: "怒り", value: "anger" },
+  { label: "悲しみ", value: "sadness" },
+  { label: "笑顔", value: "happy" },
+  { label: "驚き", value: "surprise" },
+  { label: "恐れ", value: "fear" },
+  { label: "期待", value: "expectation" },
+  { label: "嫌悪", value: "disgust" },
+  { label: "爆笑", value: "laughter" },
+  { label: "心配", value: "worry" },
+  { label: "激怒", value: "rage" },
+  { label: "動揺", value: "disturbance" },
+  { label: "不安", value: "anxiety" },
+  { label: "笑顔（目開き）", value: "Smile" },
+  { label: "寝惚け", value: "drowsiness" },
+  { label: "眠り", value: "sleep" },
 ];
 
 const uploadJson = ref();
@@ -500,7 +564,7 @@ function AddScenario() {
   });
 }
 
-function AddScenarioToIndex(index: number){
+function AddScenarioToIndex(index: number) {
   const data = {
     name: "",
     message: "",
