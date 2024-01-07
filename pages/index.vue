@@ -501,7 +501,7 @@ const charaFaceOptions = [
   { label: "激怒", value: "rage" },
   { label: "動揺", value: "disturbance" },
   { label: "不安", value: "anxiety" },
-  { label: "笑顔（目開き）", value: "Smile" },
+  { label: "笑顔（目開き）", value: "smile_open_eye" },
   { label: "寝惚け", value: "drowsiness" },
   { label: "眠り", value: "sleep" },
 ];
