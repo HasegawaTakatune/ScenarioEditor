@@ -54,6 +54,19 @@
       <div class="edit-input">
         <label for="firstBackgroundImagePath">背景画像ファイル名 </label>
 
+        <div>
+          <button
+            v-for="(option, i) in backgroundOptions"
+            @click="
+              () => {
+                form.backgroundImagePath += option.value;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
         <input
           id="firstBackgroundImagePath"
           type="text"
@@ -76,6 +89,20 @@
 
       <div class="edit-input">
         <label for="bgmPath">BGMファイル名 </label>
+
+        <div>
+          <button
+            v-for="(option, i) in bgmSoundOptions"
+            @click="
+              () => {
+                form.bgmPath += option.value;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
         <input
           id="bgmPath"
           type="text"
@@ -236,6 +263,20 @@
 
       <div class="edit-input">
         <label>BGMファイル名 </label>
+
+        <div>
+          <button
+            v-for="(option, i) in bgmSoundOptions"
+            @click="
+              () => {
+                value.bgmPath += option.value;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
         <input
           type="text"
           class=""
@@ -257,6 +298,20 @@
 
       <div class="edit-input">
         <label>SEファイル名 </label>
+
+        <div>
+          <button
+            v-for="(option, i) in seSoundOptions"
+            @click="
+              () => {
+                value.sePath += option.value;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
         <input type="text" class="" v-model="value.sePath" placeholder=".wav" />
 
         <button class="btn-mg-x" @click="refSEPath[index].click()">
@@ -504,6 +559,62 @@ const charaFaceOptions = [
   { label: "笑顔（目開き）", value: "smile_open_eye" },
   { label: "寝惚け", value: "drowsiness" },
   { label: "眠り", value: "sleep" },
+  { label: "諦め", value: "give_up" },
+  { label: "あきれる", value: "ridiculous" },
+  { label: "疑問", value: "question" },
+  { label: "照れる", value: "feel_embarrassed" },
+];
+
+const backgroundOptions = [
+  { label: "1_", value: "1_" },
+  { label: "2_", value: "2_" },
+  { label: "3_保健室、昼", value: "3_infirmary_daytime.png" },
+  { label: "4_教室、昼", value: "4_classroom_daytime.png" },
+  { label: "5_", value: "5_" },
+  { label: "6_学校・廊下、昼", value: "6_school-corridor_daytime.png" },
+  { label: "7_図書室、夕", value: "7_library_evening.png" },
+  { label: "8_", value: "8_" },
+  { label: "9_女子トイレ、夜", value: "9_girls-restroom_night.png" },
+];
+
+const seSoundOptions = [
+  { label: "アスファルトの上を歩く", value: "Walking on asphalt.mp3" },
+  { label: "ガラスが割れる", value: "Glass breaking.mp3" },
+  { label: "ドラゴンが火を吐く", value: "A dragon breathing fire.mp3" },
+  { label: "バタンと倒れる", value: "Falling with a thud.mp3" },
+  { label: "学校のチャイム", value: "School bell.mp3" },
+  { label: "打撃", value: "Impact.mp3" },
+  { label: "机をドンと叩く", value: "Slapping the desk with a thud.mp3" },
+  { label: "風に揺れる草木", value: "Grass and trees swaying in the wind.mp3" },
+];
+
+const bgmSoundOptions = [
+  { label: "3月の澄んだ空", value: "Clear sky in March.mp3" },
+  { label: "4本のリコーダー", value: "Four recorders.mp3" },
+  { label: "6人のラッパ吹き", value: "Six trumpet players.mp3" },
+  { label: "エナジー", value: "Energy.mp3" },
+  { label: "エレジー・フォー・ストリングス", value: "Elegy for Strings.mp3" },
+  { label: "チェス", value: "Chess.mp3" },
+  { label: "プルキンエ・フェノミナン", value: "Pushkin's Phenomena.mp3" },
+  { label: "ラブリーフラワー", value: "Lovely flower.mp3" },
+  { label: "レトロパーティー", value: "Retro party.mp3" },
+  { label: "三毛猫のワルツ", value: "Calico cat waltz.mp3" },
+  { label: "傾きかけた日差し", value: "Tilting sunlight.mp3" },
+  { label: "夏の霧", value: "Summer mist.mp3" },
+  { label: "夏休みの探検", value: "Summer vacation exploration.mp3" },
+  { label: "寂寞", value: "Loneliness.mp3" },
+  { label: "悲しみの曖昧な対象", value: "Ambiguous object of sorrow.mp3" },
+  { label: "抜き足差し足", value: "Coming and going.mp3" },
+  { label: "放課後の夕空", value: "After-school evening sky.mp3" },
+  { label: "日々是好日", value: "Every day is a good day.mp3" },
+  { label: "日向ぼっこ", value: "Basking in the sun.mp3" },
+  { label: "月明かりの灯台", value: "Moonlit lighthouse.mp3" },
+  { label: "水に沈むピアノ", value: "Piano sinking in water.mp3" },
+  { label: "水槽に沈む月", value: "Moon sinking in the aquarium.mp3" },
+  { label: "超深海の遊泳", value: "Deep-sea swimming.mp3" },
+  { label: "長靴でお出かけ", value: "Outing in rubber boots.mp3" },
+  { label: "雨の日のネオン", value: "Neon on a rainy day.mp3" },
+  { label: "騎兵戦", value: "Cavalry battle.mp3" },
 ];
 
 const uploadJson = ref();
