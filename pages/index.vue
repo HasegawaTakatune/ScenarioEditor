@@ -55,16 +55,15 @@
         <label for="firstBackgroundImagePath">背景画像ファイル名 </label>
 
         <div>
-          <button
-            v-for="(option, i) in backgroundOptions"
-            @click="
-              () => {
-                form.backgroundImagePath += option.value;
-              }
-            "
-          >
-            {{ option.label }}
-          </button>
+          <select class="w-10per" v-model="form.backgroundImagePath">
+            <option
+              v-for="(option, idx) in backgroundOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <input
@@ -91,16 +90,15 @@
         <label for="bgmPath">BGMファイル名 </label>
 
         <div>
-          <button
-            v-for="(option, i) in bgmSoundOptions"
-            @click="
-              () => {
-                form.bgmPath += option.value;
-              }
-            "
-          >
-            {{ option.label }}
-          </button>
+          <select class="w-10per" v-model="form.bgmPath">
+            <option
+              v-for="(option, idx) in bgmSoundOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <input
@@ -108,7 +106,7 @@
           type="text"
           class=""
           v-model="form.bgmPath"
-          placeholder=".wav"
+          placeholder=".wav,.mp3"
         />
 
         <button class="btn-mg-x" @click="refFirstBGMPath.click()">
@@ -117,7 +115,7 @@
         <input
           ref="refFirstBGMPath"
           type="file"
-          accept=".wav"
+          accept=".wav,.mp3"
           @input="form.bgmPath = UploadResourceFile($event)"
           hidden
         />
@@ -187,7 +185,7 @@
           v-model="value.talkingCharacterId"
           @input="
             (event: any) => {
-              const option = characterIdOptions.find((vl) => vl.value == event.target.value);
+              const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
                 value.name = option.label;
               }
@@ -195,7 +193,7 @@
           "
         >
           <option
-            v-for="(option, idx) in characterIdOptions"
+            v-for="(option, idx) in charaNameOptions"
             :key="idx"
             :value="option.value"
           >
@@ -225,7 +223,7 @@
           type="text"
           class=""
           v-model="value.voicePath"
-          placeholder=".wav"
+          placeholder=".wav,.mp3"
         />
 
         <button class="btn-mg-x" @click="refVoicePath[index].click()">
@@ -234,7 +232,7 @@
         <input
           ref="refVoicePath"
           type="file"
-          accept=".wav"
+          accept=".wav,.mp3"
           @input="value.voicePath = UploadResourceFile($event)"
           hidden
         />
@@ -265,23 +263,22 @@
         <label>BGMファイル名 </label>
 
         <div>
-          <button
-            v-for="(option, i) in bgmSoundOptions"
-            @click="
-              () => {
-                value.bgmPath += option.value;
-              }
-            "
-          >
-            {{ option.label }}
-          </button>
+          <select class="w-10per" v-model="value.bgmPath">
+            <option
+              v-for="(option, idx) in bgmSoundOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <input
           type="text"
           class=""
           v-model="value.bgmPath"
-          placeholder=".wav"
+          placeholder=".wav,.mp3"
         />
 
         <button class="btn-mg-x" @click="refBGMPath[index].click()">
@@ -290,7 +287,7 @@
         <input
           ref="refBGMPath"
           type="file"
-          accept=".wav"
+          accept=".wav,.mp3"
           @input="value.bgmPath = UploadResourceFile($event)"
           hidden
         />
@@ -300,19 +297,23 @@
         <label>SEファイル名 </label>
 
         <div>
-          <button
-            v-for="(option, i) in seSoundOptions"
-            @click="
-              () => {
-                value.sePath += option.value;
-              }
-            "
-          >
-            {{ option.label }}
-          </button>
+          <select class="w-10per" v-model="value.sePath">
+            <option
+              v-for="(option, idx) in seSoundOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
-        <input type="text" class="" v-model="value.sePath" placeholder=".wav" />
+        <input
+          type="text"
+          class=""
+          v-model="value.sePath"
+          placeholder=".wav,.mp3"
+        />
 
         <button class="btn-mg-x" @click="refSEPath[index].click()">
           ファイル選択
@@ -320,7 +321,7 @@
         <input
           ref="refSEPath"
           type="file"
-          accept=".wav"
+          accept=".wav,.mp3"
           @input="value.sePath = UploadResourceFile($event)"
           hidden
         />
@@ -334,16 +335,15 @@
 
         <label>スチル画像 </label>
         <div>
-          <button
-            v-for="(option, i) in stillOptions"
-            @click="
-              () => {
-                value.still.imagePath += option.value;
-              }
-            "
-          >
-            {{ option.label }}
-          </button>
+          <select class="w-10per" v-model="value.still.imagePath">
+            <option
+              v-for="(option, idx) in stillOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <input
@@ -374,22 +374,20 @@
       >
         <div class="edit-input">
           <label>キャラクタ名 </label>
-          <input type="text" class="" v-model="val.name" />
-
           <select
             class="w-10per"
-            v-model="val.id"
             @input="
             (event: any) => {
-              const option = characterIdOptions.find((vl) => vl.value == event.target.value);
+              const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
-                value.name = option.label;
+                val.name = option.label;
+                val.id = option.value;
               }
             }
           "
           >
             <option
-              v-for="(option, i) in characterIdOptions"
+              v-for="(option, i) in charaNameOptions"
               :key="i"
               :value="option.value"
             >
@@ -400,33 +398,45 @@
 
         <div class="edit-input">
           <label>キャラクターID </label>
-          <input type="text" class="" v-model="val.id" />
+          <input type="text" class="" v-model="val.id" disabled />
         </div>
 
         <div>
-          <button
-            v-for="(option, i) in charaNameOptions"
-            @click="
-              () => {
-                val.imagePath += option.value;
-              }
-            "
+          <select
+            class="w-10per"
+            @input="
+            (event: any) => {
+              val.imagePath = event.target.value;
+            }
+          "
           >
-            {{ option.label }}
-          </button>
+            <option
+              v-for="(option, i) in charaNameOptions"
+              :key="i"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <div>
-          <button
-            v-for="(option, i) in charaFaceOptions"
-            @click="
-              () => {
-                val.imagePath += `_${option.value}`;
-              }
-            "
+          <select
+            class="w-10per"
+            @input="
+            (event: any) => {
+              val.imagePath += `_${event.target.value}.png`;
+            }
+          "
           >
-            {{ option.label }}
-          </button>
+            <option
+              v-for="(option, i) in charaFaceOptions"
+              :key="i"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
         </div>
 
         <div class="edit-input">
@@ -639,21 +649,23 @@ const charaEffectOptions = [
 ];
 
 const charaNameOptions = [
-  { label: "黒", value: "hei" },
-  { label: "紅", value: "hon" },
-  { label: "黄", value: "holan" },
-  { label: "青", value: "ran" },
-  { label: "緑", value: "ryuu" },
-  { label: "桃", value: "fenhon" },
-  { label: "白", value: "pai" },
-  { label: "紫", value: "zuu" },
-  { label: "橙", value: "chon" },
-  { label: "灰", value: "fuyi" },
-  { label: "銀", value: "inn" },
-  { label: "伊", value: "yi" },
+  { label: "-", value: "" },
+  { label: "黒（ヘイ）", value: "hei" },
+  { label: "紅（ホン）", value: "hon" },
+  { label: "黄（ホァン）", value: "holan" },
+  { label: "青（ラン）", value: "ran" },
+  { label: "緑（リュウ）", value: "ryuu" },
+  { label: "桃（フェンホン）", value: "fenhon" },
+  { label: "白（パイ）", value: "pai" },
+  { label: "紫（ズー）", value: "zuu" },
+  { label: "橙（チォン）", value: "chon" },
+  { label: "灰（フゥイ）", value: "fuyi" },
+  { label: "銀（イン）", value: "inn" },
+  { label: "伊（イ）", value: "yi" },
 ];
 
 const charaFaceOptions = [
+  { label: "-", value: "" },
   { label: "普通", value: "normal" },
   { label: "微笑み", value: "smile" },
   { label: "怒り", value: "anger" },
@@ -911,8 +923,8 @@ function AddCharacter(characters: Character[]) {
 }
 
 // 選択肢入力項目の削除
-function DeleteChoiceOption(choiceOption: ChoiceOption, index: number) {
-  choiceOption = (choiceOption as ChoiceOption[]).filter(
+function DeleteChoiceOption(scenario: Scenario, index: number) {
+  scenario.choiceOptions = (scenario.choiceOptions as ChoiceOption[]).filter(
     (_, idx) => idx != index
   );
 }
