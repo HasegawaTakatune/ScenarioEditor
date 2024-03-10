@@ -34,7 +34,7 @@
           id="fileName"
           type="text"
           class=""
-          v-model="form.fileName"
+          v-model="form.chapterFilePath"
           placeholder=".json"
         />
       </div>
@@ -129,7 +129,7 @@
           id="nextChapter"
           type="text"
           class=""
-          v-model="form.nextChapter"
+          v-model="form.nextChapterFilePath"
         />
       </div>
 
@@ -326,6 +326,45 @@
         />
       </div>
 
+      <div class="edit-input">
+        <div class="edit-input">
+          <label>スチル番号 </label>
+          <input type="number" class="" v-model="value.still.no" />
+        </div>
+
+        <label>スチル画像 </label>
+        <div>
+          <button
+            v-for="(option, i) in stillOptions"
+            @click="
+              () => {
+                value.still.imagePath += option.value;
+              }
+            "
+          >
+            {{ option.label }}
+          </button>
+        </div>
+
+        <input
+          type="text"
+          class=""
+          v-model="value.still.imagePath"
+          placeholder=".png"
+        />
+
+        <button class="btn-mg-x" @click="refStill[index].click()">
+          ファイル選択
+        </button>
+        <input
+          ref="refStill"
+          type="file"
+          accept=".png"
+          @input="value.still.imagePath = UploadResourceFile($event)"
+          hidden
+        />
+      </div>
+
       <p>キャラクター</p>
       <!-- キャラクター編集 -->
       <div
@@ -461,12 +500,63 @@
         </button>
       </div>
 
+      <p>選択肢</p>
+      <!-- 選択肢編集 -->
+      <div
+        v-for="(val, idx) in value.choiceOptions"
+        :key="idx"
+        class="edit-wrapper border-color-blue-600 bg-color-blue-400"
+      >
+        <div class="edit-input">
+          <label>ラベル </label>
+          <input type="text" class="" v-model="val.label" />
+        </div>
+
+        <div class="edit-input">
+          <label> </label>
+          <input
+            type="text"
+            class=""
+            v-model="val.chapterFilePath"
+            placeholder=".json"
+          />
+
+          <button
+            class="btn-mg-x"
+            @click="refChoiceOptionChapterFilePath[index].click()"
+          >
+            ファイル選択
+          </button>
+          <input
+            ref="refChoiceOptionChapterFilePath"
+            type="file"
+            accept=".json"
+            @input="val.chapterFilePath = UploadResourceFile($event)"
+            hidden
+          />
+        </div>
+
+        <button
+          class="d-block btn-mg-x btn-mg-bottom btn-right"
+          @click="DeleteChoiceOption(value, idx)"
+        >
+          選択肢削除
+        </button>
+      </div>
+
       <div class="d-block btn-left">
         <button
           class="btn-mg-x btn-mg-bottom"
           @click="AddCharacter(value.characters)"
         >
           キャラクター追加
+        </button>
+
+        <button
+          class="btn-mg-x btn-mg-bottom"
+          @click="AddChoiceOption(value.choiceOptions)"
+        >
+          選択肢追加
         </button>
 
         <button
@@ -487,7 +577,13 @@
   </client-only>
 </template>
 <script setup lang="ts">
-import { Chapter, Scenario, Character } from "types/TChapter.ts";
+import {
+  Chapter,
+  Scenario,
+  Character,
+  ChoiceOption,
+  Still,
+} from "types/TChapter.ts";
 
 const refFirstBackgroundImagePath = ref();
 const refFirstBGMPath = ref();
@@ -496,8 +592,10 @@ const refBackgroundImagePath = ref();
 const refVoicePath = ref();
 const refBGMPath = ref();
 const refSEPath = ref();
+const refStill = ref();
 
 const refCharacterImagePath = ref();
+const refChoiceOptionChapterFilePath = ref();
 
 const positionOptions = [
   { label: "-", value: "" },
@@ -536,7 +634,7 @@ const charaNameOptions = [
   { label: "白", value: "pai" },
   { label: "紫", value: "zuu" },
   { label: "橙", value: "chon" },
-  { label: "灰", value: "sului" },
+  { label: "灰", value: "fuyi" },
   { label: "銀", value: "inn" },
   { label: "伊", value: "yi" },
 ];
@@ -617,9 +715,71 @@ const bgmSoundOptions = [
   { label: "騎兵戦", value: "Cavalry battle.mp3" },
 ];
 
+const stillOptions = [
+  {
+    label:
+      "写真。黒以外は薄い影(黒(くろ)ではなく限りなく薄い緑や水色。背景:ビル街、昼、青空)黒は17歳時のもの。",
+    value: ".png",
+  },
+  {
+    label:
+      "机をバンッと叩き立ち上がる黄。混乱する黒。周りで笑っている学園組。背景:喫茶店",
+    value: ".png",
+  },
+  {
+    label:
+      "ぽかんとする黒(中央)、薄く笑う白(中央)、ぽかんとする橙、紫(ミニキャラ)、冷静な灰(ミニキャラ)。背景:灰組の事務所",
+    value: ".png",
+  },
+  {
+    label:
+      "おろおろする黒(中央)、苦笑いをする紅(中央)、周りに怒りながら立ち上がる緑と青、黄、にこやかに笑うが後ろにゴゴゴと黒い影がある桃。背景:喫茶店",
+    value: ".png",
+  },
+  {
+    label:
+      "中央に大きく黒の額に口付けする橙。後ろに茶化す様子の紫、白、灰のミニキャラ",
+    value: ".png",
+  },
+  {
+    label:
+      "中央におろおろ黒、笑いながら顔に汗の橙、周りに戦闘態勢の学園組。背景：喫茶店",
+    value: ".png",
+  },
+  {
+    label:
+      "紫が黒の顎を指で持ち上げながらキス（背景は描いても描かなくてもいいです。一応背景は灰組の事務所です）",
+    value: ".png",
+  },
+  { label: "白が黒の事を抱き締める（背景は上記と同じ）", value: ".png" },
+  {
+    label: "黄と手を取り合う黒（背景はｒｙ。一応背景は黄龍会の部屋）",
+    value: ".png",
+  },
+  {
+    label:
+      "中央に学級日誌的な物を抱える黒とチョークを持つ灰。後ろに各キャラクターのドタバタ。無理そうなら黒と灰だけでいいです。その場合は平野と青空を背景に。",
+    value: ".png",
+  },
+];
+
+const endingOptions = [
+  { label: "表-紅ルート", value: 0 },
+  { label: "表-黄ルート", value: 1 },
+  { label: "表-白ルート", value: 2 },
+  { label: "表-橙ルート", value: 3 },
+
+  { label: "裏-白ルート", value: 4 },
+  { label: "裏-橙ルート", value: 5 },
+  { label: "裏-紫ルート", value: 6 },
+  { label: "裏-黄ルート", value: 7 },
+  { label: "裏-灰ルート", value: 8 },
+];
+
 const uploadJson = ref();
 const form = ref<Chapter>({
-  fileName: "",
+  chapterFilePath: "",
+  nextChapterFilePath: "",
   title: "",
   chapterNo: 0,
   backgroundImagePath: "",
@@ -664,14 +824,26 @@ function AddScenario() {
     name: "",
     message: "",
     voicePath: "",
+    splashMessage: "",
+    talkingCharacterId: "",
+
+    choiceOptions: [],
+    characters: [],
+
     backgroundImagePath: "",
+
+    still: {
+      no: 0,
+      imagePath: "",
+    },
+
     bgmPath: "",
     sePath: "",
-    talkingCharacterId: "",
-    characters: [],
+
+    screenEffect: "",
+
     isCharacterAllKill: false,
     isStopBGM: false,
-    screenEffect: "",
   });
 }
 
@@ -680,14 +852,26 @@ function AddScenarioToIndex(index: number) {
     name: "",
     message: "",
     voicePath: "",
+    splashMessage: "",
+    talkingCharacterId: "",
+
+    choiceOptions: [],
+    characters: [],
+
     backgroundImagePath: "",
+
+    still: {
+      no: 0,
+      imagePath: "",
+    },
+
     bgmPath: "",
     sePath: "",
-    talkingCharacterId: "",
-    characters: [],
+
+    screenEffect: "",
+
     isCharacterAllKill: false,
     isStopBGM: false,
-    screenEffect: "",
   };
   form.value.scenario.splice(index, 0, data);
 }
@@ -695,7 +879,7 @@ function AddScenarioToIndex(index: number) {
 // キャラクタ入力項目の削除
 function DeleteCharacter(scenario: Scenario, index: number) {
   scenario.characters = (scenario.characters as Character[]).filter(
-    (value, idx) => idx != index
+    (_, idx) => idx != index
   );
 }
 
@@ -708,6 +892,21 @@ function AddCharacter(characters: Character[]) {
     position: "",
     moveEffect: "",
     effect: "",
+  });
+}
+
+// 選択肢入力項目の削除
+function DeleteChoiceOption(choiceOption: ChoiceOption, index: number) {
+  choiceOption = (choiceOption as ChoiceOption[]).filter(
+    (_, idx) => idx != index
+  );
+}
+
+// 選択肢入力項目の追加
+function AddChoiceOption(choiceOption: ChoiceOption[]) {
+  choiceOption.push({
+    no: 0,
+    imagePath: "",
   });
 }
 
@@ -751,11 +950,25 @@ function CreateScenarioNumber() {
     form.value.scenario.push({
       name: "",
       message: "",
+      voicePath: "",
+      splashMessage: "",
       talkingCharacterId: "",
+
+      choiceOptions: [],
       characters: [],
+
       backgroundImagePath: "",
+
+      still: {
+        no: 0,
+        imagePath: "",
+      },
+
       bgmPath: "",
       sePath: "",
+
+      screenEffect: "",
+
       isCharacterAllKill: false,
       isStopBGM: false,
     });

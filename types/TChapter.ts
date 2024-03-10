@@ -1,3 +1,13 @@
+export type Still = {
+  no: number;
+  imagePath: string;
+};
+
+export type ChoiceOption = {
+  label: string;
+  chapterFilePath: string;
+};
+
 export type Character = {
   name: string;
   id: string;
@@ -13,26 +23,35 @@ export type Character = {
 
 export type Scenario = {
   name: string;
-  splashMessage: string;
   message: string;
   voicePath: string;
+  splashMessage: string;
+  talkingCharacterId: string;
+
+  choiceOptions: ChoiceOption[];
+  characters: Character[];
+
   backgroundImagePath: string;
+
+  still: Still;
+
   bgmPath: string;
   sePath: string;
-  talkingCharacterId: string;
-  characters: Character[];
+
+  screenEffect: "" | "lose-color";
+
   isCharacterAllKill: boolean;
   isStopBGM: boolean;
-  screenEffect: "" | "lose-color";
+  endingType: number;
 };
 
 export type Chapter = {
-  fileName: string;
+  chapterFilePath: string;
+  nextChapterFilePath: string;
   title: string;
   chapterNo: number;
   backgroundImagePath: string;
   bgmPath: string;
-  nextChapter: string;
   keepScene: boolean;
   scenario: Scenario[];
 };
