@@ -544,6 +544,20 @@
         </button>
       </div>
 
+      <div class="edit-input">
+        <label>エンディング種別 </label>
+
+        <select class="w-10per" v-model="value.endingType">
+          <option
+            v-for="(option, idx) in endingOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
       <div class="d-block btn-left">
         <button
           class="btn-mg-x btn-mg-bottom"
@@ -764,6 +778,7 @@ const stillOptions = [
 ];
 
 const endingOptions = [
+  { label: "-", value: null },
   { label: "表-紅ルート", value: 0 },
   { label: "表-黄ルート", value: 1 },
   { label: "表-白ルート", value: 2 },
