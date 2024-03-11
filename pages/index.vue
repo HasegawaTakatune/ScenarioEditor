@@ -178,16 +178,17 @@
         <label>話しているキャラクターID </label>
 
         <input type="text" v-model="value.name" />
+        <input type="text" v-model="value.talkingCharacterId" />
 
         <select
           name="talkingCharacterId"
           class="w-10per"
-          v-model="value.talkingCharacterId"
           @input="
             (event: any) => {
               const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
-                value.name = option.label;
+                value.name = value.name == '' ? option.label : `${value.name},${option.label}`;
+                value.talkingCharacterId = value.talkingCharacterId == '' ? option.value : `${value.talkingCharacterId},${option.value}`;
               }
             }
           "
