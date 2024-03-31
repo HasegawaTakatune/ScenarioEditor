@@ -251,6 +251,18 @@
 
       <div class="edit-input">
         <label>背景画像ファイル名 </label>
+        <div>
+          <select class="w-10per" v-model="value.backgroundImagePath">
+            <option
+              v-for="(option, idx) in backgroundOptions"
+              :key="idx"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
         <input
           type="text"
           class=""
@@ -387,12 +399,12 @@
           <label>キャラクタ名 </label>
           <select
             class="w-10per"
+            v-model="val.id"
             @input="
             (event: any) => {
               const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
                 val.name = option.label;
-                val.id = option.value;
               }
             }
           "
@@ -412,14 +424,10 @@
           <input type="text" class="" v-model="val.id" disabled />
         </div>
 
-        <div>
+        <div class="edit-input">
           <select
             class="w-10per"
-            @input="
-            (event: any) => {
-              val.imagePath = `${event.target.value}.png`;
-            }
-          "
+            v-model="val.imagePath"
           >
             <option
               v-for="(option, i) in getCharacterFaceOptions(val.id)"
@@ -694,463 +702,494 @@ const getCharacterFaceOptions = (characterId: string) => {
 // （年齢）_ キャラ_ 服装_ 表情_ オプション１_ オプション２
 // 14_ hei_ private_clothes_ normal_ dark_circles_ non_highlight
 const heiCharaFaceOptions = [
-  { label: "14 ノーマル//制服", value: "14_hei_school_uniform_normal" },
-  { label: "14 ノーマル//私服", value: "14_hei_private_clothes" },
+  { label: "14 ノーマル//制服", value: "14_hei_school_uniform_normal.png" },
+  { label: "14 ノーマル//私服", value: "14_hei_private_clothes.png" },
   {
     label: "14 ノーマル//私服(目の下に隈。虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_normal_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_normal_dark_circles_non_highlight.png",
   },
   {
     label: "14 ノーマル//私服(目の下に隈。目は普通(ハイライトあり))",
-    value: "14_hei_private_clothes_normal_dark_circles_highlight",
+    value: "14_hei_private_clothes_normal_dark_circles_highlight.png",
   },
 
-  { label: "14 笑う//制服", value: "14_hei_school_uniform_happy" },
-  { label: "14 笑う//私服", value: "14_hei_private_clothes_happy" },
+  { label: "14 笑う//制服", value: "14_hei_school_uniform_happy.png" },
+  { label: "14 笑う//私服", value: "14_hei_private_clothes_happy.png" },
 
-  { label: "14 満面の笑み//制服", value: "14_hei_school_uniform_big_smile" },
-  { label: "14 満面の笑み//私服", value: "14_hei_private_clothes_big_smile" },
+  { label: "14 満面の笑み//制服", value: "14_hei_school_uniform_big_smile.png" },
+  { label: "14 満面の笑み//私服", value: "14_hei_private_clothes_big_smile.png" },
 
-  { label: "14 微笑み//制服", value: "14_hei_school_uniform_smile" },
-  { label: "14 微笑み//私服", value: "14_hei_private_clothes_smile" },
+  { label: "14 微笑み//制服", value: "14_hei_school_uniform_smile.png" },
+  { label: "14 微笑み//私服", value: "14_hei_private_clothes_smile.png" },
 
   {
     label: "14 弱々しく笑う//私服",
-    value: "14_hei_private_clothes_smile_weakly",
+    value: "14_hei_private_clothes_smile_weakly.png",
   },
   {
     label: "14 弱々しく笑う//私服(目の下に隈、虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_smile_weakly_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_smile_weakly_dark_circles_non_highlight.png",
   },
   {
     label: "14 弱々しく笑う//私服(目の下に隈、目は普通(ハイライトあり))",
-    value: "14_hei_private_clothes_smile_weakly_dark_circles_highlight",
+    value: "14_hei_private_clothes_smile_weakly_dark_circles_highlight.png",
   },
 
   {
     label: "14 驚き(呆然)(ぽかんとする)//制服",
-    value: "14_hei_school_uniform_surprise",
+    value: "14_hei_school_uniform_surprise.png",
   },
   {
     label: "14 驚き(呆然)(ぽかんとする)//私服",
-    value: "14_hei_private_clothes_surprise",
+    value: "14_hei_private_clothes_surprise.png",
   },
   {
     label:
       "14 驚き(呆然)(ぽかんとする)//私服(目の下に隈、虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_surprise_circles_non_highlight",
+    value: "14_hei_private_clothes_surprise_circles_non_highlight.png",
   },
 
   {
     label: "14 泣きそう(悲しげ)(しょんぼり)//制服",
-    value: "14_hei_school_uniform_sadness",
+    value: "14_hei_school_uniform_sadness.png",
   },
   {
     label: "14 泣きそう(悲しげ)(しょんぼり)//私服",
-    value: "14_hei_private_clothes_sadness",
+    value: "14_hei_private_clothes_sadness.png",
   },
   {
     label:
       "14 泣きそう(悲しげ)(しょんぼり)//私服(目の下に隈、虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_sadness_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_sadness_dark_circles_non_highlight.png",
   },
 
-  { label: "14 泣く//制服", value: "14_hei_school_uniform_cry" },
-  { label: "14 泣く//私服", value: "14_hei_private_clothes_cry" },
+  { label: "14 泣く//制服", value: "14_hei_school_uniform_cry.png" },
+  { label: "14 泣く//私服", value: "14_hei_private_clothes_cry.png" },
   {
     label: "14 泣く//私服(目の下に隈、虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_cry_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_cry_dark_circles_non_highlight.png",
   },
 
-  { label: "14 疑問(考える)//制服", value: "14_hei_school_uniform_question" },
-  { label: "14 疑問(考える)//私服", value: "14_hei_private_clothes_question" },
+  { label: "14 疑問(考える)//制服", value: "14_hei_school_uniform_question.png" },
+  { label: "14 疑問(考える)//私服", value: "14_hei_private_clothes_question.png" },
   {
     label: "14 疑問(考える)//私服(目の下に隈、虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_question_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_question_dark_circles_non_highlight.png",
   },
 
   {
     label: "14 動揺(戸惑う)(おどおど)(焦り)(あわてる)//制服",
-    value: "14_hei_school_uniform_disturbance",
+    value: "14_hei_school_uniform_disturbance.png",
   },
   {
     label: "14 動揺(戸惑う)(おどおど)(焦り)(あわてる)//私服",
-    value: "14_hei_private_clothes_disturbance",
+    value: "14_hei_private_clothes_disturbance.png",
   },
 
   {
     label: "14 照れ(恥ずかしい)//制服",
-    value: "14_hei_school_uniform_feel_shy",
+    value: "14_hei_school_uniform_feel_shy.png",
   },
   {
     label: "14 照れ(恥ずかしい)//私服",
-    value: "14_hei_private_clothes_feel_shy",
+    value: "14_hei_private_clothes_feel_shy.png",
   },
 
-  { label: "14 キリッ//制服", value: "14_hei_school_uniform_confident_face" },
-  { label: "14 キリッ//私服", value: "14_hei_private_clothes_confident_face" },
+  { label: "14 キリッ//制服", value: "14_hei_school_uniform_confident_face.png" },
+  { label: "14 キリッ//私服", value: "14_hei_private_clothes_confident_face.png" },
 
-  { label: "14 青ざめる(恐怖)//制服", value: "14_hei_school_uniform_fear" },
-  { label: "14 青ざめる(恐怖)//私服", value: "14_hei_private_clothes_fear" },
+  { label: "14 青ざめる(恐怖)//制服", value: "14_hei_school_uniform_fear.png" },
+  { label: "14 青ざめる(恐怖)//私服", value: "14_hei_private_clothes_fear.png" },
   {
     label: "14 青ざめる(恐怖)//私服(目の下に隈、虚ろな目(ハイライト無し))",
-    value: "14_hei_private_clothes_fear_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_fear_dark_circles_non_highlight.png",
   },
 
-  { label: "14 耐える(難しい顔)//制服", value: "14_hei_school_uniform_endure" },
+  { label: "14 耐える(難しい顔)//制服", value: "14_hei_school_uniform_endure.png" },
   {
     label: "14 耐える(難しい顔)//私服",
-    value: "14_hei_private_clothes_endure",
+    value: "14_hei_private_clothes_endure.png",
   },
 
-  { label: "14 必死//私服", value: "14_hei_private_clothes_desperately" },
+  { label: "14 必死//私服", value: "14_hei_private_clothes_desperately.png" },
 
-  { label: "14 眠り//私服", value: "14_hei_private_clothes_sleep" },
+  { label: "14 眠り//私服", value: "14_hei_private_clothes_sleep.png" },
   {
     label: "14 眠り//私服(目の下に隈)",
-    value: "14_hei_private_clothes_sleep_dark_circles_non_highlight",
+    value: "14_hei_private_clothes_sleep_dark_circles_non_highlight.png",
   },
 
-  { label: "14 苦し気//私服", value: "14_hei_private_clothes_painful" },
+  { label: "14 苦し気//私服", value: "14_hei_private_clothes_painful.png" },
 
-  { label: "17 ノーマル//制服", value: "17_hei_school_uniform_normal" },
-  { label: "17 ノーマル//私服", value: "17_hei_private_clothes" },
+  { label: "17 ノーマル//制服", value: "17_hei_school_uniform_normal.png" },
+  { label: "17 ノーマル//私服", value: "17_hei_private_clothes.png" },
 
-  { label: "17 笑う//私服", value: "17_hei_private_clothes_happy" },
+  { label: "17 笑う//私服", value: "17_hei_private_clothes_happy.png" },
 
-  { label: "17 微笑み//私服", value: "17_hei_private_clothes_smile" },
+  { label: "17 微笑み//私服", value: "17_hei_private_clothes_smile.png" },
 
-  { label: "17 満面の笑み//私服", value: "17_hei_private_clothes_big_smile" },
+  { label: "17 満面の笑み//私服", value: "17_hei_private_clothes_big_smile.png" },
 
-  { label: "17 目をつむる//私服", value: "17_hei_private_clothes_close_eyes" },
+  { label: "17 目をつむる//私服", value: "17_hei_private_clothes_close_eyes.png" },
 
   {
     label: "17 驚き(ぽかんとする)//私服",
-    value: "17_hei_private_clothes_surprise",
+    value: "17_hei_private_clothes_surprise.png",
   },
 
-  { label: "17 泣きそう//私服", value: "17_hei_private_clothes_about_to_cry" },
+  { label: "17 泣きそう//私服", value: "17_hei_private_clothes_about_to_cry.png" },
 
-  { label: "17 泣く//私服", value: "17_hei_private_clothes_cry" },
+  { label: "17 泣く//私服", value: "17_hei_private_clothes_cry.png" },
 
-  { label: "17 疑問//制服", value: "17_hei_school_uniform_question" },
-  { label: "17 疑問//私服", value: "17_hei_private_clothes_question" },
+  { label: "17 疑問//制服", value: "17_hei_school_uniform_question.png" },
+  { label: "17 疑問//私服", value: "17_hei_private_clothes_question.png" },
 
-  { label: "17 照れ//制服", value: "17_hei_school_uniform_feel_shy" },
-  { label: "17 照れ//私服", value: "17_hei_private_clothes_feel_shy" },
+  { label: "17 照れ//制服", value: "17_hei_school_uniform_feel_shy.png" },
+  { label: "17 照れ//私服", value: "17_hei_private_clothes_feel_shy.png" },
 
   {
     label: "17 動揺(戸惑う)(おどおど)(焦り)//制服",
-    value: "17_hei_school_uniform_disturbance",
+    value: "17_hei_school_uniform_disturbance.png",
   },
   {
     label: "17 動揺(戸惑う)(おどおど)(焦り)//私服",
-    value: "17_hei_private_clothes_disturbance",
+    value: "17_hei_private_clothes_disturbance.png",
   },
 
-  { label: "17 必死//私服", value: "17_hei_private_clothes_desperately" },
+  { label: "17 必死//私服", value: "17_hei_private_clothes_desperately.png" },
 
-  { label: "17 キリッ(怒り)//制服", value: "17_hei_school_uniform_anger" },
-  { label: "17 キリッ(怒り)//私服", value: "17_hei_private_clothes_anger" },
+  { label: "17 キリッ(怒り)//制服", value: "17_hei_school_uniform_anger.png" },
+  { label: "17 キリッ(怒り)//私服", value: "17_hei_private_clothes_anger.png" },
 
   {
     label: "17 悲しげ(しょんぼり)//制服",
-    value: "17_hei_school_uniform_sadness",
+    value: "17_hei_school_uniform_sadness.png",
   },
   {
     label: "17 悲しげ(しょんぼり)//私服",
-    value: "17_hei_private_clothes_sadness",
+    value: "17_hei_private_clothes_sadness.png",
   },
 
-  { label: "17 耐える//私服", value: "17_hei_private_clothes_endure" },
+  { label: "17 耐える//私服", value: "17_hei_private_clothes_endure.png" },
 
-  { label: "17 呆れ//私服", value: "17_hei_private_clothes_ridiculous" },
+  { label: "17 呆れ//私服", value: "17_hei_private_clothes_ridiculous.png" },
 
-  { label: "17 真剣//私服", value: "17_hei_private_clothes_earnest" },
+  { label: "17 真剣//私服", value: "17_hei_private_clothes_earnest.png" },
 ];
 
 const honCharaFaceOptions = [
-  { label: "ノーマル//制服", value: "hon_school_uniform_normal" },
-  { label: "ノーマル//私服", value: "hon_private_clothes_normal" },
+  { label: "ノーマル//制服", value: "hon_school_uniform_normal.png" },
+  { label: "ノーマル//私服", value: "hon_private_clothes_normal.png" },
 
-  { label: "笑う//制服", value: "hon_school_uniform_happy" },
-  { label: "笑う//私服", value: "hon_private_clothes_happy" },
-  { label: "笑う//ジャージ", value: "hon_tracksuit_happy" },
+  { label: "笑う//制服", value: "hon_school_uniform_happy.png" },
+  { label: "笑う//私服", value: "hon_private_clothes_happy.png" },
+  { label: "笑う//ジャージ", value: "hon_tracksuit_happy.png" },
 
-  { label: "にかっと笑う//制服", value: "hon_school_uniform_more_happy" },
-  { label: "にかっと笑う//私服", value: "hon_private_clothes_more_happy" },
+  { label: "にかっと笑う//制服", value: "hon_school_uniform_more_happy.png" },
+  { label: "にかっと笑う//私服", value: "hon_private_clothes_more_happy.png" },
 
-  { label: "怒る//制服", value: "hon_school_uniform_anger" },
-  { label: "怒る//私服", value: "hon_private_clothes_anger" },
+  { label: "怒る//制服", value: "hon_school_uniform_anger.png" },
+  { label: "怒る//私服", value: "hon_private_clothes_anger.png" },
   {
     label: "怒る//私服（顔上半分影）",
-    value: "hon_private_clothes_anger_half_face_shadow",
+    value: "hon_private_clothes_anger_half_face_shadow.png",
   },
 
-  { label: "ムッとする(不機嫌)//制服", value: "hon_school_uniform_grumpy" },
-  { label: "ムッとする(不機嫌)//私服", value: "hon_private_clothes_grumpy" },
+  { label: "ムッとする(不機嫌)//制服", value: "hon_school_uniform_grumpy.png" },
+  { label: "ムッとする(不機嫌)//私服", value: "hon_private_clothes_grumpy.png" },
 
-  { label: "照れ//制服", value: "hon_school_uniform_feel_shy" },
+  { label: "照れ//制服", value: "hon_school_uniform_feel_shy.png" },
 
-  { label: "驚き//私服", value: "hon_private_clothes_surprise" },
+  { label: "驚き//私服", value: "hon_private_clothes_surprise.png" },
 
-  { label: "諦め//制服", value: "hon_school_uniform_give_up" },
-  { label: "諦め//私服", value: "hon_private_clothes_give_up" },
+  { label: "諦め//制服", value: "hon_school_uniform_give_up.png" },
+  { label: "諦め//私服", value: "hon_private_clothes_give_up.png" },
 
-  { label: "苦し気//私服", value: "hon_private_clothes_painful" },
+  { label: "苦し気//私服", value: "hon_private_clothes_painful.png" },
 
-  { label: "呆れ//制服", value: "hon_school_uniform_ridiculous" },
+  { label: "呆れ//制服", value: "hon_school_uniform_ridiculous.png" },
 ];
 
 const holanCharaFaceOptions = [
-  { label: "ノーマル//私服", value: "holan_school_uniform_normal" },
-  { label: "ノーマル//ジャージ", value: "holan_tracksuit_normal" },
+  { label: "ノーマル//私服", value: "holan_school_uniform_normal.png" },
+  { label: "ノーマル//ジャージ", value: "holan_tracksuit_normal.png" },
 
-  { label: "笑う//制服", value: "holan_school_uniform_happy" },
-  { label: "笑う//私服", value: "holan_private_clothes_happy" },
+  { label: "笑う//制服", value: "holan_school_uniform_happy.png" },
+  { label: "笑う//私服", value: "holan_private_clothes_happy.png" },
 
-  { label: "ムッとする//制服", value: "holan_school_uniform_grumpy" },
-  { label: "ムッとする//私服", value: "holan_private_clothes_grumpy" },
+  { label: "ムッとする//制服", value: "holan_school_uniform_grumpy.png" },
+  { label: "ムッとする//私服", value: "holan_private_clothes_grumpy.png" },
 
-  { label: "怒り(凄む)//制服", value: "holan_school_uniform_anger" },
-  { label: "怒り(凄む)//私服", value: "holan_private_clothes_anger" },
+  { label: "怒り(凄む)//制服", value: "holan_school_uniform_anger.png" },
+  { label: "怒り(凄む)//私服", value: "holan_private_clothes_anger.png" },
 
-  { label: "甘える//制服", value: "holan_school_uniform_spoiled" },
+  { label: "甘える//制服", value: "holan_school_uniform_spoiled.png" },
 
-  { label: "残念//制服", value: "holan_school_uniform_regret" },
+  { label: "残念//制服", value: "holan_school_uniform_regret.png" },
 
   {
     label: "弱々しい(悲しげ)(おそるおそる)(泣きそう)//制服",
-    value: "holan_school_uniform_sadness",
+    value: "holan_school_uniform_sadness.png",
   },
   {
     label: "弱々しい(悲しげ)(おそるおそる)(泣きそう)//私服",
-    value: "holan_private_clothes_sadness",
+    value: "holan_private_clothes_sadness.png",
   },
 
-  { label: "難しい顔(考え込む)//制服", value: "holan_school_uniform_ponder" },
-  { label: "難しい顔(考え込む)//私服", value: "holan_private_clothes_ponder" },
+  { label: "難しい顔(考え込む)//制服", value: "holan_school_uniform_ponder.png" },
+  { label: "難しい顔(考え込む)//私服", value: "holan_private_clothes_ponder.png" },
 
-  { label: "驚き(ぽかんとする)//制服", value: "holan_school_uniform_surprise" },
+  { label: "驚き(ぽかんとする)//制服", value: "holan_school_uniform_surprise.png" },
   {
     label: "驚き(ぽかんとする)//私服",
-    value: "holan_private_clothes_surprise",
+    value: "holan_private_clothes_surprise.png",
   },
 
-  { label: "焦り(狼狽える)//制服", value: "holan_school_uniform_impatience" },
-  { label: "焦り(狼狽える)//私服", value: "holan_private_clothes_impatience" },
+  { label: "焦り(狼狽える)//制服", value: "holan_school_uniform_impatience.png" },
+  { label: "焦り(狼狽える)//私服", value: "holan_private_clothes_impatience.png" },
 
-  { label: "真剣//私服", value: "holan_private_clothes_earnest" },
+  { label: "真剣//私服", value: "holan_private_clothes_earnest.png" },
 
-  { label: "目をつむる//制服", value: "holan_school_uniform_close_eyes" },
+  { label: "目をつむる//制服", value: "holan_school_uniform_close_eyes.png" },
 
-  { label: "呆れ//制服", value: "holan_school_uniform_ridiculous" },
-  { label: "呆れ//私服", value: "holan_private_clothes_ridiculous" },
+  { label: "呆れ//制服", value: "holan_school_uniform_ridiculous.png" },
+  { label: "呆れ//私服", value: "holan_private_clothes_ridiculous.png" },
 
-  { label: "開き直る//私服", value: "holan_private_clothes_become_defiant" },
+  { label: "開き直る//私服", value: "holan_private_clothes_become_defiant.png" },
 
-  { label: "言葉につまる//私服", value: "holan_private_clothes_speechless" },
+  { label: "言葉につまる//私服", value: "holan_private_clothes_speechless.png" },
 ];
 
 const ryuuCharaFaceOptions = [
-  { label: "ノーマル//制服", value: "ryuu_school_uniform_normal" },
-  { label: "ノーマル//私服", value: "ryuu_private_clothes_normal" },
-  { label: "ノーマル//ジャージ", value: "ryuu_tracksuit_normal" },
+  { label: "ノーマル//制服", value: "ryuu_school_uniform_normal.png" },
+  { label: "ノーマル//私服", value: "ryuu_private_clothes_normal.png" },
+  { label: "ノーマル//ジャージ", value: "ryuu_tracksuit_normal.png" },
 
-  { label: "笑う//私服", value: "ryuu_private_clothes_happy" },
+  { label: "笑う//私服", value: "ryuu_private_clothes_happy.png" },
 
-  { label: "怒る(厳しい顔)//制服", value: "ryuu_school_uniform_anger" },
-  { label: "怒る(厳しい顔)//私服", value: "ryuu_private_clothes_anger" },
+  { label: "怒る(厳しい顔)//制服", value: "ryuu_school_uniform_anger.png" },
+  { label: "怒る(厳しい顔)//私服", value: "ryuu_private_clothes_anger.png" },
 
-  { label: "驚き//制服", value: "ryuu_school_uniform_surprise" },
-  { label: "驚き//私服", value: "ryuu_private_clothes_surprise" },
+  { label: "驚き//制服", value: "ryuu_school_uniform_surprise.png" },
+  { label: "驚き//私服", value: "ryuu_private_clothes_surprise.png" },
 
-  { label: "呆れ//制服", value: "ryuu_school_uniform_ridiculous" },
-  { label: "呆れ//ジャージ", value: "ryuu_tracksuit_ridiculous" },
-  { label: "呆れ//私服", value: "ryuu_private_clothes_ridiculous" },
+  { label: "呆れ//制服", value: "ryuu_school_uniform_ridiculous.png" },
+  { label: "呆れ//ジャージ", value: "ryuu_tracksuit_ridiculous.png" },
+  { label: "呆れ//私服", value: "ryuu_private_clothes_ridiculous.png" },
 
-  { label: "焦り//制服", value: "ryuu_school_uniform_impatience" },
-  { label: "焦り//私服", value: "ryuu_private_clothes_impatience" },
+  { label: "焦り//制服", value: "ryuu_school_uniform_impatience.png" },
+  { label: "焦り//私服", value: "ryuu_private_clothes_impatience.png" },
 
-  { label: "疑問//制服", value: "ryuu_school_uniform_question" },
-  { label: "疑問//私服", value: "ryuu_private_clothes_question" },
+  { label: "疑問//制服", value: "ryuu_school_uniform_question.png" },
+  { label: "疑問//私服", value: "ryuu_private_clothes_question.png" },
 
-  { label: "心配(申し訳なさそう)//制服", value: "ryuu_school_uniform_worry" },
-  { label: "心配(申し訳なさそう)//私服", value: "ryuu_private_clothes_worry" },
+  { label: "心配(申し訳なさそう)//制服", value: "ryuu_school_uniform_worry.png" },
+  { label: "心配(申し訳なさそう)//私服", value: "ryuu_private_clothes_worry.png" },
 ];
 
 const ranCharaFaceOptions = [
-  { label: "ノーマル//制服", value: "ran_school_uniform_normal" },
-  { label: "ノーマル//私服", value: "ran_private_clothes_normal" },
-  { label: "ノーマル//ジャージ", value: "ran_tracksuit_normal" },
+  { label: "ノーマル//制服", value: "ran_school_uniform_normal.png" },
+  { label: "ノーマル//私服", value: "ran_private_clothes_normal.png" },
+  { label: "ノーマル//ジャージ", value: "ran_tracksuit_normal.png" },
 
-  { label: "笑う//私服", value: "ran_private_clothes_happy" },
+  { label: "笑う//私服", value: "ran_private_clothes_happy.png" },
 
-  { label: "呆れる//制服", value: "ran_school_uniform_ridiculous" },
+  { label: "呆れる//制服", value: "ran_school_uniform_ridiculous.png" },
 
-  { label: "心配//制服", value: "ran_school_uniform_worry" },
+  { label: "心配//制服", value: "ran_school_uniform_worry.png" },
 
-  { label: "戸惑い//私服", value: "ran_private_clothes_bewildered" },
+  { label: "戸惑い//私服", value: "ran_private_clothes_bewildered.png" },
 
-  { label: "疑問//私服", value: "ran_private_clothes_question" },
+  { label: "疑問//私服", value: "ran_private_clothes_question.png" },
 
-  { label: "怒り//私服", value: "ran_private_clothes_anger" },
+  { label: "怒り//私服", value: "ran_private_clothes_anger.png" },
 ];
 
 const fenhonCharaFaceOptions = [
-  { label: "ノーマル//私服", value: "fenhon_private_clothes_normal" },
+  { label: "ノーマル//私服", value: "fenhon_private_clothes_normal.png" },
 
-  { label: "笑う//制服", value: "fenhon_school_uniform_happy" },
-  { label: "笑う//私服", value: "fenhon_private_clothes_happy" },
-  { label: "満面の笑み//制服", value: "fenhon_school_uniform_big_smile" },
+  { label: "笑う//制服", value: "fenhon_school_uniform_happy.png" },
+  { label: "笑う//私服", value: "fenhon_private_clothes_happy.png" },
+  { label: "満面の笑み//制服", value: "fenhon_school_uniform_big_smile.png" },
 
   {
     label: "満面の笑み//制服(装飾品:ゴゴゴ的な黒いアレ)",
-    value: "fenhon_school_uniform_big_smile",
+    value: "fenhon_school_uniform_big_smile.png",
   },
 
-  { label: "怒る(厳しい顔)//制服", value: "fenhon_school_uniform_anger" },
-  { label: "怒る(厳しい顔)//私服", value: "fenhon_private_clothes_anger" },
+  { label: "怒る(厳しい顔)//制服", value: "fenhon_school_uniform_anger.png" },
+  { label: "怒る(厳しい顔)//私服", value: "fenhon_private_clothes_anger.png" },
 
-  { label: "呆れ//制服", value: "fenhon_school_uniform_ridiculous" },
-  { label: "呆れ//私服", value: "fenhon_private_clothes_ridiculous" },
+  { label: "呆れ//制服", value: "fenhon_school_uniform_ridiculous.png" },
+  { label: "呆れ//私服", value: "fenhon_private_clothes_ridiculous.png" },
 ];
 
 const paiCharaFaceOptions = [
   {
     label: "ノーマル//私服//ゴーグルあり",
-    value: "pai_private_clothes_goggles_normal",
+    value: "pai_private_clothes_goggles_normal.png",
   },
 
   {
     label: "凄む//私服//ゴーグルあり",
-    value: "pai_private_clothes_goggles_threaten",
+    value: "pai_private_clothes_goggles_threaten.png",
   },
 
   {
     label: "呆れ//私服//ゴーグルあり",
-    value: "pai_private_clothes_goggles_ridiculous",
+    value: "pai_private_clothes_goggles_ridiculous.png",
   },
 
   {
     label: "難しい顔//私服//ゴーグルあり",
-    value: "pai_private_clothes_goggles_ponder",
+    value: "pai_private_clothes_goggles_ponder.png",
   },
 
-  { label: "ノーマル//私服", value: "pai_private_clothes_normal" },
-  { label: "ノーマル//ジャージ", value: "pai_private_clothes_normal" },
+  { label: "ノーマル//私服", value: "pai_private_clothes_normal.png" },
+  { label: "ノーマル//ジャージ", value: "pai_private_clothes_normal.png" },
 
-  { label: "笑う//私服", value: "pai_private_clothes_happy" },
+  { label: "笑う//私服", value: "pai_private_clothes_happy.png" },
 
-  { label: "目をつむる//私服", value: "pai_private_clothes_close_eyes" },
+  { label: "目をつむる//私服", value: "pai_private_clothes_close_eyes.png" },
 
-  { label: "呆れ//私服", value: "pai_private_clothes_ridiculous" },
+  { label: "呆れ//私服", value: "pai_private_clothes_ridiculous.png" },
 
   {
     label: "凄む(怒り、不機嫌、難しい顔)//私服",
-    value: "pai_private_clothes_threaten",
+    value: "pai_private_clothes_threaten.png",
   },
 
-  { label: "疑問(考える)//私服", value: "pai_private_clothes_question" },
+  { label: "疑問(考える)//私服", value: "pai_private_clothes_question.png" },
 
-  { label: "真剣//私服", value: "pai_private_clothes_earnest" },
+  { label: "真剣//私服", value: "pai_private_clothes_earnest.png" },
 
   {
     label: "悲しげ(弱々しく、心配)//私服",
-    value: "pai_private_clothes_sadness",
+    value: "pai_private_clothes_sadness.png",
   },
 
-  { label: "焦り//私服", value: "pai_private_clothes_impatience" },
+  { label: "焦り//私服", value: "pai_private_clothes_impatience.png" },
 
-  { label: "驚き//私服", value: "pai_private_clothes_surprise" },
+  { label: "驚き//私服", value: "pai_private_clothes_surprise.png" },
 ];
 
 const zuuCharaFaceOptions = [
-  { label: "15 ノーマル", value: "15_zuu_private_clothes_normal" },
-  { label: "15 疑問(考える)", value: "15_zuu_private_clothes_question" },
-  { label: "15 笑う", value: "15_zuu_private_clothes_happy" },
-  { label: "15 満面の笑み", value: "15_zuu_private_clothes_big_smile" },
+  { label: "15 ノーマル", value: "15_zuu_private_clothes_normal.png" },
+  { label: "15 疑問(考える)", value: "15_zuu_private_clothes_question.png" },
+  { label: "15 笑う", value: "15_zuu_private_clothes_happy.png" },
+  { label: "15 満面の笑み", value: "15_zuu_private_clothes_big_smile.png" },
   {
     label: "15 不機嫌(怒り)(厳しい顔)(自棄)",
-    value: "15_zuu_private_clothes_grumpy",
+    value: "15_zuu_private_clothes_grumpy.png",
   },
   {
     label: "15 不機嫌(怒り)(厳しい顔)(自棄)(目の下に隈)",
-    value: "15_zuu_private_clothes_grumpy_dark_circles",
+    value: "15_zuu_private_clothes_grumpy_dark_circles.png",
   },
-  { label: "15 焦り", value: "15_zuu_private_clothes_impatience" },
-  { label: "15 呆れ", value: "15_zuu_private_clothes_ridiculous" },
+  { label: "15 焦り", value: "15_zuu_private_clothes_impatience.png" },
+  { label: "15 呆れ", value: "15_zuu_private_clothes_ridiculous.png" },
   {
     label: "15 疲れきった様子。目の下に隈。",
-    value: "15_zuu_private_clothes_exhausted_dark_circles",
+    value: "15_zuu_private_clothes_exhausted_dark_circles.png",
   },
-  { label: "15 照れ", value: "15_zuu_private_clothes_feel_shy" },
-  { label: "15 驚き", value: "15_zuu_private_clothes_surprise" },
+  { label: "15 照れ", value: "15_zuu_private_clothes_feel_shy.png" },
+  { label: "15 驚き", value: "15_zuu_private_clothes_surprise.png" },
 
-  { label: "18 ノーマル", value: "18_zuu_private_clothes_normal" },
+  { label: "18 ノーマル", value: "18_zuu_private_clothes_normal.png" },
   {
     label: "18 ノーマル(髪の毛切った)",
-    value: "18_zuu_private_clothes_normal_cut_hair",
+    value: "18_zuu_private_clothes_normal_cut_hair.png",
   },
-  { label: "18 不機嫌(怒り)", value: "18_zuu_private_clothes_anger" },
-  { label: "18 笑う", value: "18_zuu_private_clothes_happy" },
+  { label: "18 不機嫌(怒り)", value: "18_zuu_private_clothes_anger.png" },
+  { label: "18 笑う", value: "18_zuu_private_clothes_happy.png" },
   {
     label: "18 笑う(髪の毛切った)",
-    value: "18_zuu_private_clothes_happy_cut_hair",
+    value: "18_zuu_private_clothes_happy_cut_hair.png",
   },
-  { label: "18 悪そうに笑う", value: "18_zuu_private_clothes_grin_wickedly" },
-  { label: "18 満面の笑み", value: "18_zuu_private_clothes_big_smile" },
-  { label: "18 焦り", value: "18_zuu_private_clothes_impatience" },
-  { label: "18 しょんぼり", value: "18_zuu_private_clothes_sadness" },
-  { label: "18 驚き(ぽかんとする)", value: "18_zuu_private_clothes_surprise" },
-  { label: "18 照れ", value: "18_zuu_private_clothes_feel_shy" },
+  { label: "18 悪そうに笑う", value: "18_zuu_private_clothes_grin_wickedly.png" },
+  { label: "18 満面の笑み", value: "18_zuu_private_clothes_big_smile.png" },
+  { label: "18 焦り", value: "18_zuu_private_clothes_impatience.png" },
+  { label: "18 しょんぼり", value: "18_zuu_private_clothes_sadness.png" },
+  { label: "18 驚き(ぽかんとする)", value: "18_zuu_private_clothes_surprise.png" },
+  { label: "18 照れ", value: "18_zuu_private_clothes_feel_shy.png" },
 ];
 
 const chonCharaFaceOptions = [
-  { label: "ノーマル", value: "chon_private_clothes_normal" },
-  { label: "笑う", value: "chon_private_clothes_happy" },
-  { label: "弱々しく笑う", value: "chon_private_clothes_smile_weakly" },
-  { label: "満面の笑み", value: "chon_private_clothes_big_smile" },
-  { label: "疑問", value: "chon_private_clothes_question" },
-  { label: "眉を下げる", value: "chon_private_clothes_down_eyebrows" },
-  { label: "怒り", value: "chon_private_clothes_anger" },
-  { label: "焦り", value: "chon_private_clothes_impatience" },
-  { label: "呆れ", value: "chon_private_clothes_ridiculous" },
-  { label: "真剣", value: "chon_private_clothes_earnest" },
-  { label: "凄む", value: "chon_private_clothes_threaten" },
-  { label: "眠り", value: "chon_private_clothes_sleep" },
-  { label: "驚き", value: "chon_private_clothes_surprise" },
-  { label: "不満", value: "chon_private_clothes_dissatisfaction" },
+  { label: "ノーマル", value: "chon_private_clothes_normal.png" },
+  { label: "笑う", value: "chon_private_clothes_happy.png" },
+  { label: "弱々しく笑う", value: "chon_private_clothes_smile_weakly.png" },
+  { label: "満面の笑み", value: "chon_private_clothes_big_smile.png" },
+  { label: "疑問", value: "chon_private_clothes_question.png" },
+  { label: "眉を下げる", value: "chon_private_clothes_down_eyebrows.png" },
+  { label: "怒り", value: "chon_private_clothes_anger.png" },
+  { label: "焦り", value: "chon_private_clothes_impatience.png" },
+  { label: "呆れ", value: "chon_private_clothes_ridiculous.png" },
+  { label: "真剣", value: "chon_private_clothes_earnest.png" },
+  { label: "凄む", value: "chon_private_clothes_threaten.png" },
+  { label: "眠り", value: "chon_private_clothes_sleep.png" },
+  { label: "驚き", value: "chon_private_clothes_surprise.png" },
+  { label: "不満", value: "chon_private_clothes_dissatisfaction.png" },
 ];
 
 const fuyiCharaFaceOptions = [
-  { label: "ノーマル", value: "fuyi_private_clothes_normal" },
-  { label: "怒り(凄む)(厳しい顔)", value: "fuyi_private_clothes_anger" },
-  { label: "苛立たし気(鬱陶しそう)", value: "fuyi_private_clothes_irritated" },
-  { label: "考える", value: "fuyi_private_clothes_question" },
-  { label: "笑う", value: "fuyi_private_clothes_happy" },
-  { label: "爆笑", value: "fuyi_private_clothes_big_smile" },
-  { label: "嘲笑", value: "fuyi_private_clothes_scoff" },
-  { label: "呆れ", value: "fuyi_private_clothes_ridiculous" },
+  { label: "ノーマル", value: "fuyi_private_clothes_normal.png" },
+  { label: "怒り(凄む)(厳しい顔)", value: "fuyi_private_clothes_anger.png" },
+  { label: "苛立たし気(鬱陶しそう)", value: "fuyi_private_clothes_irritated.png" },
+  { label: "考える", value: "fuyi_private_clothes_question.png" },
+  { label: "笑う", value: "fuyi_private_clothes_happy.png" },
+  { label: "爆笑", value: "fuyi_private_clothes_big_smile.png" },
+  { label: "嘲笑", value: "fuyi_private_clothes_scoff.png" },
+  { label: "呆れ", value: "fuyi_private_clothes_ridiculous.png" },
 ];
 
 const innCharaFaceOptions = [
-  { label: "ノーマル", value: "inn_private_clothes_normal" },
-  { label: "笑う", value: "inn_private_clothes_happy" },
-  { label: "不機嫌(ぐずる)", value: "inn_private_clothes_grumpy" },
-  { label: "舌を出す。あっかんべー", value: "inn_private_clothes_ridicule" },
+  { label: "ノーマル", value: "inn_private_clothes_normal.png" },
+  { label: "笑う", value: "inn_private_clothes_happy.png" },
+  { label: "不機嫌(ぐずる)", value: "inn_private_clothes_grumpy.png" },
+  { label: "舌を出す。あっかんべー", value: "inn_private_clothes_ridicule.png" },
 ];
 
 const backgroundOptions = [
-  { label: "1_", value: "1_" },
-  { label: "2_", value: "2_" },
-  { label: "3_保健室、昼", value: "3_infirmary_daytime.png" },
-  { label: "4_教室、昼", value: "4_classroom_daytime.png" },
-  { label: "5_", value: "5_" },
-  { label: "6_学校・廊下、昼", value: "6_school-corridor_daytime.png" },
-  { label: "7_図書室、夕", value: "7_library_evening.png" },
-  { label: "8_", value: "8_" },
-  { label: "9_女子トイレ、夜", value: "9_girls-restroom_night.png" },
+  { label: "1_学園（中庭・昼）", value: "school_courtyard_daytime.png" },
+  { label: "2_学校の中庭、夜", value: "school_courtyard_nighttime.png" },
+  { label: "3_保健室、昼", value: "health_office_daytime.png" },
+  { label: "4_教室、昼", value: "classroom_daytime.png" },
+  { label: "5_職員室、朝", value: "staff_room_morning.png" },
+  { label: "6_学校・廊下、昼", value: "school_corridor_daytime.png" },
+  { label: "7_図書室、夕", value: "library_evening.png" },
+  { label: "8_寮の部屋(似たものがあればそれでOK)、夜", value: "dorm_room_nighttime.png" },
+  { label: "9_女子トイレ、夜", value: "girls_restroom_nighttime.png" },
+  { label: "10_豪華な部屋、昼", value: "lavish_room_daytime.png" },
+  { label: "11_灰達のアジト、夜(事務所風)", value: "ashes_hideout_nighttime_office-like.png" },
+  { label: "12_灰達の事務所、昼間", value: "ashes_office_daytime.png" },
+  { label: "13_灰組の事務所、朝", value: "ashes_group_office_morning.png" },
+  { label: "14_灰組の事務所、深夜", value: "ashes_group_office_late_night.png" },
+  { label: "15_灰組のアジト、廊下、朝", value: "ashes_hideout_corridor_morning.png" },
+  { label: "16_橙の部屋、昼", value: "orange_room_daytime.png" },
+  { label: "17_灰組のアジト、黒の部屋、夜", value: "ashes_hideout_black_room_nighttime.png" },
+  { label: "18_灰組の事務「室」、昼", value: "ashes_group_office_daytime.png" },
+  { label: "19_喫茶店、昼", value: "cafe_daytime.png" },
+  { label: "20_廃墟、昼", value: "ruins_daytime.png" },
+  { label: "21_ビル街、昼", value: "downtown_daytime.png" },
+  { label: "22_ビル街、夕", value: "downtown_evening.png" },
+  { label: "23_ビル街、夜", value: "downtown_nighttime.png" },
+  { label: "24_薄暗い路地裏、昼", value: "dim_alley_daytime.png" },
+  { label: "25_どこかの屋敷、夜", value: "mansion_nighttime.png" },
+  { label: "26_海辺の倉庫？(ドラム缶がいっぱい置いてある所)、夜", value: "seaside_warehouse_nighttime_filled_with_barrels.png" },
+  { label: "27_平野、青空", value: "plain_blue_sky.png" },
+  { label: "28_大きな校舎、昼", value: "large_school_building_daytime.png" },
+  { label: "29_化学準備室、昼", value: "chemistry_preparation_room_daytime.png" },
+  { label: "30_化学準備室、夕", value: "chemistry_preparation_room_evening.png" },
+  { label: "31_学校の屋上、昼", value: "school_rooftop_daytime.png" },
+  { label: "32_体育館裏、昼", value: "behind_the_gymnasium_daytime.png" },
+  { label: "33_学校のグラウンド、朝", value: "school_ground_morning.png" },
+  { label: "34_新幹線の中、朝", value: "inside_the_bullet_train_morning.png" },
+  { label: "35_なんか観光地的な所、昼", value: "touristy_place_daytime.png" },
+  { label: "36_土産屋、昼", value: "souvenir_shop_daytime.png" },
+  { label: "37_宿の中の部屋、夜(明かり付き)", value: "room_inside_the_inn_nighttime_with_lights_on.png" },
+  { label: "38_宿の中の部屋、夜(明かり無し)", value: "room_inside_the_inn_nighttime_with_lights_off.png" },
+  { label: "39_灰組の事務所、夜(明かり無し)", value: "ashes_office_nighttime_with_lights_off.png" },
+  { label: "40_灰組のアジト、黒の部屋、夜(明かり無し)", value: "ashes_hideout_black_room_nighttime_with_lights_off.png" },
 ];
 
 const seSoundOptions = [
@@ -1198,47 +1237,47 @@ const stillOptions = [
   {
     label:
       "写真。黒以外は薄い影(黒(くろ)ではなく限りなく薄い緑や水色。背景:ビル街、昼、青空)黒は17歳時のもの。",
-    value: ".png",
+    value: "still1.png",
   },
   {
     label:
       "机をバンッと叩き立ち上がる黄。混乱する黒。周りで笑っている学園組。背景:喫茶店",
-    value: ".png",
+    value: "still2.png",
   },
   {
     label:
       "ぽかんとする黒(中央)、薄く笑う白(中央)、ぽかんとする橙、紫(ミニキャラ)、冷静な灰(ミニキャラ)。背景:灰組の事務所",
-    value: ".png",
+    value: "still3.png",
   },
   {
     label:
       "おろおろする黒(中央)、苦笑いをする紅(中央)、周りに怒りながら立ち上がる緑と青、黄、にこやかに笑うが後ろにゴゴゴと黒い影がある桃。背景:喫茶店",
-    value: ".png",
+    value: "still4.png",
   },
   {
     label:
       "中央に大きく黒の額に口付けする橙。後ろに茶化す様子の紫、白、灰のミニキャラ",
-    value: ".png",
+    value: "still5.png",
   },
   {
     label:
       "中央におろおろ黒、笑いながら顔に汗の橙、周りに戦闘態勢の学園組。背景：喫茶店",
-    value: ".png",
+    value: "still6.png",
   },
   {
     label:
       "紫が黒の顎を指で持ち上げながらキス（背景は描いても描かなくてもいいです。一応背景は灰組の事務所です）",
-    value: ".png",
+    value: "still7.png",
   },
-  { label: "白が黒の事を抱き締める（背景は上記と同じ）", value: ".png" },
+  { label: "白が黒の事を抱き締める（背景は上記と同じ）", value: "still8.png" },
   {
     label: "黄と手を取り合う黒（背景はｒｙ。一応背景は黄龍会の部屋）",
-    value: ".png",
+    value: "still9.png",
   },
   {
     label:
       "中央に学級日誌的な物を抱える黒とチョークを持つ灰。後ろに各キャラクターのドタバタ。無理そうなら黒と灰だけでいいです。その場合は平野と青空を背景に。",
-    value: ".png",
+    value: "still10.png",
   },
 ];
 
