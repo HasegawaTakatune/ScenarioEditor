@@ -43,6 +43,7 @@ export type Scenario = {
   isCharacterAllKill: boolean;
   isStopBGM: boolean;
   endingType: number;
+  fadeOut: boolean;
 };
 
 export type Chapter = {
@@ -54,4 +55,6 @@ export type Chapter = {
   bgmPath: string;
   keepScene: boolean;
   scenario: Scenario[];
+  stopBGM: boolean;
+  isCharacterAllKill: boolean;
 };
