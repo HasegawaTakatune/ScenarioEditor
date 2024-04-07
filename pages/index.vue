@@ -53,18 +53,15 @@
 
       <div class="edit-input">
         <label for="firstBackgroundImagePath">背景画像ファイル名 </label>
-
-        <div>
-          <select class="w-10per" v-model="form.backgroundImagePath">
-            <option
-              v-for="(option, idx) in backgroundOptions"
-              :key="idx"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
+        <select v-model="form.backgroundImagePath">
+          <option
+            v-for="(option, idx) in backgroundOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
 
         <input
           id="firstBackgroundImagePath"
@@ -88,18 +85,15 @@
 
       <div class="edit-input">
         <label for="bgmPath">BGMファイル名 </label>
-
-        <div>
-          <select class="w-10per" v-model="form.bgmPath">
-            <option
-              v-for="(option, idx) in bgmSoundOptions"
-              :key="idx"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
+        <select v-model="form.bgmPath">
+          <option
+            v-for="(option, idx) in bgmSoundOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
 
         <input
           id="bgmPath"
@@ -122,9 +116,9 @@
       </div>
 
       <div class="edit-input">
-        <label for="nextChapter">次のチャプター名 </label>
+        <label for="nextChapterFilePath">次のチャプター名 </label>
         <input
-          id="nextChapter"
+          id="nextChapterFilePath"
           type="text"
           class=""
           v-model="form.nextChapterFilePath"
@@ -172,8 +166,7 @@
 
       <div class="edit-input">
         <label>画面エフェクト </label>
-
-        <select class="w-10per" v-model="value.screenEffect">
+        <select v-model="value.screenEffect">
           <option
             v-for="(option, idx) in screenEffectOptions"
             :key="idx"
@@ -192,13 +185,17 @@
 
         <select
           name="talkingCharacterId"
-          class="w-10per"
           @input="
             (event: any) => {
               const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
-                value.name = value.name == '' ? option.label : `${value.name},${option.label}`;
-                value.talkingCharacterId = value.talkingCharacterId == '' ? option.value : `${value.talkingCharacterId},${option.value}`;
+                if(!value?.talkingCharacterId){
+                  value.name =  option.label;
+                  value.talkingCharacterId =  option.value;
+                }else{
+                  value.name = value?.name ? `${value.name},${option.label}` : option.label;
+                  value.talkingCharacterId = value?.talkingCharacterId ? `${value.talkingCharacterId},${option.value}` : option.value;
+                }
               }
             }
           "
@@ -251,17 +248,15 @@
 
       <div class="edit-input">
         <label>背景画像ファイル名 </label>
-        <div>
-          <select class="w-10per" v-model="value.backgroundImagePath">
-            <option
-              v-for="(option, idx) in backgroundOptions"
-              :key="idx"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
+        <select v-model="value.backgroundImagePath">
+          <option
+            v-for="(option, idx) in backgroundOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
 
         <input
           type="text"
@@ -284,18 +279,15 @@
 
       <div class="edit-input">
         <label>BGMファイル名 </label>
-
-        <div>
-          <select class="w-10per" v-model="value.bgmPath">
-            <option
-              v-for="(option, idx) in bgmSoundOptions"
-              :key="idx"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
+        <select v-model="value.bgmPath">
+          <option
+            v-for="(option, idx) in bgmSoundOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
 
         <input
           type="text"
@@ -318,18 +310,15 @@
 
       <div class="edit-input">
         <label>SEファイル名 </label>
-
-        <div>
-          <select class="w-10per" v-model="value.sePath">
-            <option
-              v-for="(option, idx) in seSoundOptions"
-              :key="idx"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </div>
+        <select v-model="value.sePath">
+          <option
+            v-for="(option, idx) in seSoundOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
 
         <input
           type="text"
@@ -358,7 +347,7 @@
 
         <div class="edit-input">
           <label>スチル画像 </label>
-          <select class="w-10per" v-model="value.still.imagePath">
+          <select v-model="value.still.imagePath">
             <option
               v-for="(option, idx) in stillOptions"
               :key="idx"
@@ -398,7 +387,6 @@
         <div class="edit-input">
           <label>キャラクタ名 </label>
           <select
-            class="w-10per"
             v-model="val.id"
             @input="
             (event: any) => {
@@ -425,10 +413,8 @@
         </div>
 
         <div class="edit-input">
-          <select
-            class="w-10per"
-            v-model="val.imagePath"
-          >
+          <label>キャラクター画像ファイル名 </label>
+          <select v-model="val.imagePath">
             <option
               v-for="(option, i) in getCharacterFaceOptions(val.id)"
               :key="i"
@@ -437,10 +423,6 @@
               {{ option.label }}
             </option>
           </select>
-        </div>
-
-        <div class="edit-input">
-          <label>キャラクター画像ファイル名 </label>
           <input
             type="text"
             class=""
@@ -556,8 +538,7 @@
 
       <div class="edit-input">
         <label>エンディング種別 </label>
-
-        <select class="w-10per" v-model="value.endingType">
+        <select v-model="value.endingType">
           <option
             v-for="(option, idx) in endingOptions"
             :key="idx"
@@ -715,9 +696,19 @@ const heiCharaFaceOptions = [
 
   { label: "14 笑う//制服", value: "14_hei_school_uniform_happy.png" },
   { label: "14 笑う//私服", value: "14_hei_private_clothes_happy.png" },
+  {
+    label: "14 にっこり笑う//制服",
+    value: "14_hei_school_uniform_smile_softly.png",
+  },
 
-  { label: "14 満面の笑み//制服", value: "14_hei_school_uniform_big_smile.png" },
-  { label: "14 満面の笑み//私服", value: "14_hei_private_clothes_big_smile.png" },
+  {
+    label: "14 満面の笑み//制服",
+    value: "14_hei_school_uniform_big_smile.png",
+  },
+  {
+    label: "14 満面の笑み//私服",
+    value: "14_hei_private_clothes_big_smile.png",
+  },
 
   { label: "14 微笑み//制服", value: "14_hei_school_uniform_smile.png" },
   { label: "14 微笑み//私服", value: "14_hei_private_clothes_smile.png" },
@@ -770,8 +761,14 @@ const heiCharaFaceOptions = [
     value: "14_hei_private_clothes_cry_dark_circles_non_highlight.png",
   },
 
-  { label: "14 疑問(考える)//制服", value: "14_hei_school_uniform_question.png" },
-  { label: "14 疑問(考える)//私服", value: "14_hei_private_clothes_question.png" },
+  {
+    label: "14 疑問(考える)//制服",
+    value: "14_hei_school_uniform_question.png",
+  },
+  {
+    label: "14 疑問(考える)//私服",
+    value: "14_hei_private_clothes_question.png",
+  },
   {
     label: "14 疑問(考える)//私服(目の下に隈、虚ろな目(ハイライト無し))",
     value: "14_hei_private_clothes_question_dark_circles_non_highlight.png",
@@ -795,17 +792,29 @@ const heiCharaFaceOptions = [
     value: "14_hei_private_clothes_feel_shy.png",
   },
 
-  { label: "14 キリッ//制服", value: "14_hei_school_uniform_confident_face.png" },
-  { label: "14 キリッ//私服", value: "14_hei_private_clothes_confident_face.png" },
+  {
+    label: "14 キリッ//制服",
+    value: "14_hei_school_uniform_confident_face.png",
+  },
+  {
+    label: "14 キリッ//私服",
+    value: "14_hei_private_clothes_confident_face.png",
+  },
 
   { label: "14 青ざめる(恐怖)//制服", value: "14_hei_school_uniform_fear.png" },
-  { label: "14 青ざめる(恐怖)//私服", value: "14_hei_private_clothes_fear.png" },
+  {
+    label: "14 青ざめる(恐怖)//私服",
+    value: "14_hei_private_clothes_fear.png",
+  },
   {
     label: "14 青ざめる(恐怖)//私服(目の下に隈、虚ろな目(ハイライト無し))",
     value: "14_hei_private_clothes_fear_dark_circles_non_highlight.png",
   },
 
-  { label: "14 耐える(難しい顔)//制服", value: "14_hei_school_uniform_endure.png" },
+  {
+    label: "14 耐える(難しい顔)//制服",
+    value: "14_hei_school_uniform_endure.png",
+  },
   {
     label: "14 耐える(難しい顔)//私服",
     value: "14_hei_private_clothes_endure.png",
@@ -828,16 +837,25 @@ const heiCharaFaceOptions = [
 
   { label: "17 微笑み//私服", value: "17_hei_private_clothes_smile.png" },
 
-  { label: "17 満面の笑み//私服", value: "17_hei_private_clothes_big_smile.png" },
+  {
+    label: "17 満面の笑み//私服",
+    value: "17_hei_private_clothes_big_smile.png",
+  },
 
-  { label: "17 目をつむる//私服", value: "17_hei_private_clothes_close_eyes.png" },
+  {
+    label: "17 目をつむる//私服",
+    value: "17_hei_private_clothes_close_eyes.png",
+  },
 
   {
     label: "17 驚き(ぽかんとする)//私服",
     value: "17_hei_private_clothes_surprise.png",
   },
 
-  { label: "17 泣きそう//私服", value: "17_hei_private_clothes_about_to_cry.png" },
+  {
+    label: "17 泣きそう//私服",
+    value: "17_hei_private_clothes_about_to_cry.png",
+  },
 
   { label: "17 泣く//私服", value: "17_hei_private_clothes_cry.png" },
 
@@ -896,7 +914,10 @@ const honCharaFaceOptions = [
   },
 
   { label: "ムッとする(不機嫌)//制服", value: "hon_school_uniform_grumpy.png" },
-  { label: "ムッとする(不機嫌)//私服", value: "hon_private_clothes_grumpy.png" },
+  {
+    label: "ムッとする(不機嫌)//私服",
+    value: "hon_private_clothes_grumpy.png",
+  },
 
   { label: "照れ//制服", value: "hon_school_uniform_feel_shy.png" },
 
@@ -936,17 +957,32 @@ const holanCharaFaceOptions = [
     value: "holan_private_clothes_sadness.png",
   },
 
-  { label: "難しい顔(考え込む)//制服", value: "holan_school_uniform_ponder.png" },
-  { label: "難しい顔(考え込む)//私服", value: "holan_private_clothes_ponder.png" },
+  {
+    label: "難しい顔(考え込む)//制服",
+    value: "holan_school_uniform_ponder.png",
+  },
+  {
+    label: "難しい顔(考え込む)//私服",
+    value: "holan_private_clothes_ponder.png",
+  },
 
-  { label: "驚き(ぽかんとする)//制服", value: "holan_school_uniform_surprise.png" },
+  {
+    label: "驚き(ぽかんとする)//制服",
+    value: "holan_school_uniform_surprise.png",
+  },
   {
     label: "驚き(ぽかんとする)//私服",
     value: "holan_private_clothes_surprise.png",
   },
 
-  { label: "焦り(狼狽える)//制服", value: "holan_school_uniform_impatience.png" },
-  { label: "焦り(狼狽える)//私服", value: "holan_private_clothes_impatience.png" },
+  {
+    label: "焦り(狼狽える)//制服",
+    value: "holan_school_uniform_impatience.png",
+  },
+  {
+    label: "焦り(狼狽える)//私服",
+    value: "holan_private_clothes_impatience.png",
+  },
 
   { label: "真剣//私服", value: "holan_private_clothes_earnest.png" },
 
@@ -955,9 +991,15 @@ const holanCharaFaceOptions = [
   { label: "呆れ//制服", value: "holan_school_uniform_ridiculous.png" },
   { label: "呆れ//私服", value: "holan_private_clothes_ridiculous.png" },
 
-  { label: "開き直る//私服", value: "holan_private_clothes_become_defiant.png" },
+  {
+    label: "開き直る//私服",
+    value: "holan_private_clothes_become_defiant.png",
+  },
 
-  { label: "言葉につまる//私服", value: "holan_private_clothes_speechless.png" },
+  {
+    label: "言葉につまる//私服",
+    value: "holan_private_clothes_speechless.png",
+  },
 ];
 
 const ryuuCharaFaceOptions = [
@@ -965,6 +1007,7 @@ const ryuuCharaFaceOptions = [
   { label: "ノーマル//私服", value: "ryuu_private_clothes_normal.png" },
   { label: "ノーマル//ジャージ", value: "ryuu_tracksuit_normal.png" },
 
+  { label: "笑う//制服", value: "ryuu_school_uniform_happy.png" },
   { label: "笑う//私服", value: "ryuu_private_clothes_happy.png" },
 
   { label: "怒る(厳しい顔)//制服", value: "ryuu_school_uniform_anger.png" },
@@ -983,8 +1026,14 @@ const ryuuCharaFaceOptions = [
   { label: "疑問//制服", value: "ryuu_school_uniform_question.png" },
   { label: "疑問//私服", value: "ryuu_private_clothes_question.png" },
 
-  { label: "心配(申し訳なさそう)//制服", value: "ryuu_school_uniform_worry.png" },
-  { label: "心配(申し訳なさそう)//私服", value: "ryuu_private_clothes_worry.png" },
+  {
+    label: "心配(申し訳なさそう)//制服",
+    value: "ryuu_school_uniform_worry.png",
+  },
+  {
+    label: "心配(申し訳なさそう)//私服",
+    value: "ryuu_private_clothes_worry.png",
+  },
 ];
 
 const ranCharaFaceOptions = [
@@ -1014,7 +1063,7 @@ const fenhonCharaFaceOptions = [
 
   {
     label: "満面の笑み//制服(装飾品:ゴゴゴ的な黒いアレ)",
-    value: "fenhon_school_uniform_big_smile.png",
+    value: "fenhon_school_uniform_big_smile_dark_aura.png",
   },
 
   { label: "怒る(厳しい顔)//制服", value: "fenhon_school_uniform_anger.png" },
@@ -1106,11 +1155,17 @@ const zuuCharaFaceOptions = [
     label: "18 笑う(髪の毛切った)",
     value: "18_zuu_private_clothes_happy_cut_hair.png",
   },
-  { label: "18 悪そうに笑う", value: "18_zuu_private_clothes_grin_wickedly.png" },
+  {
+    label: "18 悪そうに笑う",
+    value: "18_zuu_private_clothes_grin_wickedly.png",
+  },
   { label: "18 満面の笑み", value: "18_zuu_private_clothes_big_smile.png" },
   { label: "18 焦り", value: "18_zuu_private_clothes_impatience.png" },
   { label: "18 しょんぼり", value: "18_zuu_private_clothes_sadness.png" },
-  { label: "18 驚き(ぽかんとする)", value: "18_zuu_private_clothes_surprise.png" },
+  {
+    label: "18 驚き(ぽかんとする)",
+    value: "18_zuu_private_clothes_surprise.png",
+  },
   { label: "18 照れ", value: "18_zuu_private_clothes_feel_shy.png" },
 ];
 
@@ -1134,7 +1189,10 @@ const chonCharaFaceOptions = [
 const fuyiCharaFaceOptions = [
   { label: "ノーマル", value: "fuyi_private_clothes_normal.png" },
   { label: "怒り(凄む)(厳しい顔)", value: "fuyi_private_clothes_anger.png" },
-  { label: "苛立たし気(鬱陶しそう)", value: "fuyi_private_clothes_irritated.png" },
+  {
+    label: "苛立たし気(鬱陶しそう)",
+    value: "fuyi_private_clothes_irritated.png",
+  },
   { label: "考える", value: "fuyi_private_clothes_question.png" },
   { label: "笑う", value: "fuyi_private_clothes_happy.png" },
   { label: "爆笑", value: "fuyi_private_clothes_big_smile.png" },
@@ -1146,10 +1204,14 @@ const innCharaFaceOptions = [
   { label: "ノーマル", value: "inn_private_clothes_normal.png" },
   { label: "笑う", value: "inn_private_clothes_happy.png" },
   { label: "不機嫌(ぐずる)", value: "inn_private_clothes_grumpy.png" },
-  { label: "舌を出す。あっかんべー", value: "inn_private_clothes_ridicule.png" },
+  {
+    label: "舌を出す。あっかんべー",
+    value: "inn_private_clothes_ridicule.png",
+  },
 ];
 
 const backgroundOptions = [
+  { label: "-", value: "" },
   { label: "1_学園（中庭・昼）", value: "school_courtyard_daytime.png" },
   { label: "2_学校の中庭、夜", value: "school_courtyard_nighttime.png" },
   { label: "3_保健室、昼", value: "health_office_daytime.png" },
@@ -1157,16 +1219,31 @@ const backgroundOptions = [
   { label: "5_職員室、朝", value: "staff_room_morning.png" },
   { label: "6_学校・廊下、昼", value: "school_corridor_daytime.png" },
   { label: "7_図書室、夕", value: "library_evening.png" },
-  { label: "8_寮の部屋(似たものがあればそれでOK)、夜", value: "dorm_room_nighttime.png" },
+  {
+    label: "8_寮の部屋(似たものがあればそれでOK)、夜",
+    value: "dorm_room_nighttime.png",
+  },
   { label: "9_女子トイレ、夜", value: "girls_restroom_nighttime.png" },
   { label: "10_豪華な部屋、昼", value: "lavish_room_daytime.png" },
-  { label: "11_灰達のアジト、夜(事務所風)", value: "ashes_hideout_nighttime_office-like.png" },
+  {
+    label: "11_灰達のアジト、夜(事務所風)",
+    value: "ashes_hideout_nighttime_office-like.png",
+  },
   { label: "12_灰達の事務所、昼間", value: "ashes_office_daytime.png" },
   { label: "13_灰組の事務所、朝", value: "ashes_group_office_morning.png" },
-  { label: "14_灰組の事務所、深夜", value: "ashes_group_office_late_night.png" },
-  { label: "15_灰組のアジト、廊下、朝", value: "ashes_hideout_corridor_morning.png" },
+  {
+    label: "14_灰組の事務所、深夜",
+    value: "ashes_group_office_late_night.png",
+  },
+  {
+    label: "15_灰組のアジト、廊下、朝",
+    value: "ashes_hideout_corridor_morning.png",
+  },
   { label: "16_橙の部屋、昼", value: "orange_room_daytime.png" },
-  { label: "17_灰組のアジト、黒の部屋、夜", value: "ashes_hideout_black_room_nighttime.png" },
+  {
+    label: "17_灰組のアジト、黒の部屋、夜",
+    value: "ashes_hideout_black_room_nighttime.png",
+  },
   { label: "18_灰組の事務「室」、昼", value: "ashes_group_office_daytime.png" },
   { label: "19_喫茶店、昼", value: "cafe_daytime.png" },
   { label: "20_廃墟、昼", value: "ruins_daytime.png" },
@@ -1175,24 +1252,46 @@ const backgroundOptions = [
   { label: "23_ビル街、夜", value: "downtown_nighttime.png" },
   { label: "24_薄暗い路地裏、昼", value: "dim_alley_daytime.png" },
   { label: "25_どこかの屋敷、夜", value: "mansion_nighttime.png" },
-  { label: "26_海辺の倉庫？(ドラム缶がいっぱい置いてある所)、夜", value: "seaside_warehouse_nighttime_filled_with_barrels.png" },
+  {
+    label: "26_海辺の倉庫？(ドラム缶がいっぱい置いてある所)、夜",
+    value: "seaside_warehouse_nighttime_filled_with_barrels.png",
+  },
   { label: "27_平野、青空", value: "plain_blue_sky.png" },
   { label: "28_大きな校舎、昼", value: "large_school_building_daytime.png" },
-  { label: "29_化学準備室、昼", value: "chemistry_preparation_room_daytime.png" },
-  { label: "30_化学準備室、夕", value: "chemistry_preparation_room_evening.png" },
+  {
+    label: "29_化学準備室、昼",
+    value: "chemistry_preparation_room_daytime.png",
+  },
+  {
+    label: "30_化学準備室、夕",
+    value: "chemistry_preparation_room_evening.png",
+  },
   { label: "31_学校の屋上、昼", value: "school_rooftop_daytime.png" },
   { label: "32_体育館裏、昼", value: "behind_the_gymnasium_daytime.png" },
   { label: "33_学校のグラウンド、朝", value: "school_ground_morning.png" },
   { label: "34_新幹線の中、朝", value: "inside_the_bullet_train_morning.png" },
   { label: "35_なんか観光地的な所、昼", value: "touristy_place_daytime.png" },
   { label: "36_土産屋、昼", value: "souvenir_shop_daytime.png" },
-  { label: "37_宿の中の部屋、夜(明かり付き)", value: "room_inside_the_inn_nighttime_with_lights_on.png" },
-  { label: "38_宿の中の部屋、夜(明かり無し)", value: "room_inside_the_inn_nighttime_with_lights_off.png" },
-  { label: "39_灰組の事務所、夜(明かり無し)", value: "ashes_office_nighttime_with_lights_off.png" },
-  { label: "40_灰組のアジト、黒の部屋、夜(明かり無し)", value: "ashes_hideout_black_room_nighttime_with_lights_off.png" },
+  {
+    label: "37_宿の中の部屋、夜(明かり付き)",
+    value: "room_inside_the_inn_nighttime_with_lights_on.png",
+  },
+  {
+    label: "38_宿の中の部屋、夜(明かり無し)",
+    value: "room_inside_the_inn_nighttime_with_lights_off.png",
+  },
+  {
+    label: "39_灰組の事務所、夜(明かり無し)",
+    value: "ashes_office_nighttime_with_lights_off.png",
+  },
+  {
+    label: "40_灰組のアジト、黒の部屋、夜(明かり無し)",
+    value: "ashes_hideout_black_room_nighttime_with_lights_off.png",
+  },
 ];
 
 const seSoundOptions = [
+  { label: "-", value: "" },
   { label: "アスファルトの上を歩く", value: "Walking on asphalt.mp3" },
   { label: "ガラスが割れる", value: "Glass breaking.mp3" },
   { label: "ドラゴンが火を吐く", value: "A dragon breathing fire.mp3" },
@@ -1205,6 +1304,7 @@ const seSoundOptions = [
 ];
 
 const bgmSoundOptions = [
+  { label: "-", value: "" },
   { label: "3月の澄んだ空", value: "Clear sky in March.mp3" },
   { label: "4本のリコーダー", value: "Four recorders.mp3" },
   { label: "6人のラッパ吹き", value: "Six trumpet players.mp3" },
@@ -1234,6 +1334,7 @@ const bgmSoundOptions = [
 ];
 
 const stillOptions = [
+  { label: "-", value: "" },
   {
     label:
       "写真。黒以外は薄い影(黒(くろ)ではなく限りなく薄い緑や水色。背景:ビル街、昼、青空)黒は17歳時のもの。",
@@ -1303,7 +1404,6 @@ const form = ref<Chapter>({
   chapterNo: 0,
   backgroundImagePath: "",
   bgmPath: "",
-  nextChapter: "",
   keepScene: false,
   scenario: [],
 });
@@ -1505,6 +1605,8 @@ function UploadResourceFile(event: any) {
 input[type="text"],
 textarea,
 select {
+  width: 100%;
+  max-width: 400px;
   font-weight: bold;
 }
 
@@ -1531,10 +1633,6 @@ html {
 
 .edit-input label {
   display: block;
-}
-
-.w-10per {
-  width: 10%;
 }
 
 .d-block {
