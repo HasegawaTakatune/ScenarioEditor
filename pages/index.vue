@@ -189,12 +189,47 @@
             (event: any) => {
               const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
-                if(!value?.talkingCharacterId){
-                  value.name =  option.label;
-                  value.talkingCharacterId =  option.value;
+                if(option.value == null){
+                  value.name = '';
+                  value.talkingCharacterId = '';
+                }else if(!value?.talkingCharacterId){
+                  value.name = option.label;
+                  value.talkingCharacterId = option.value;
                 }else{
                   value.name = value?.name ? `${value.name},${option.label}` : option.label;
                   value.talkingCharacterId = value?.talkingCharacterId ? `${value.talkingCharacterId},${option.value}` : option.value;
+                }
+              }
+            }
+          "
+        >
+          <option
+            v-for="(option, idx) in charaNameOptions"
+            :key="idx"
+            :value="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="edit-input">
+        <label>後ろに位置するキャラクターID </label>
+
+        <input type="text" style="display: block;" v-model="value.backCharacterId" />
+
+        <select
+          name="backCharacterId"
+          @input="
+            (event: any) => {
+              const option = charaNameOptions.find((vl) => vl.value == event.target.value);
+              if (option) {
+                if(option.value == null){
+                  value.backCharacterId = '';
+                }else if(!value?.talkingCharacterId){
+                  value.backCharacterId = option.value;
+                }else{
+                  value.backCharacterId = value?.talkingCharacterId ? `${value.talkingCharacterId},${option.value}` : option.value;
                 }
               }
             }
@@ -390,6 +425,7 @@
             v-model="val.id"
             @input="
             (event: any) => {
+              if(!event.target.value)return;
               const option = charaNameOptions.find((vl) => vl.value == event.target.value);
               if (option) {
                 val.name = option.label;
@@ -550,8 +586,28 @@
       </div>
 
       <div class="edit-input">
+        <label>間</label>
+        <input type="checkbox" v-model="value.sleep" />
+      </div>
+
+      <div class="edit-input">
         <label>暗転</label>
         <input type="checkbox" v-model="value.fadeOut" />
+      </div>
+
+      <div class="edit-input">
+        <label>暗転（バック）</label>
+        <input type="checkbox" v-model="value.fadeOutBack" />
+      </div>
+
+      <div class="edit-input">
+        <label>明転</label>
+        <input type="checkbox" v-model="value.fadeIn" />
+      </div>
+
+      <div class="edit-input">
+        <label>メッセージ継続</label>
+        <input type="checkbox" v-model="value.continueMessage" />
       </div>
 
       <div class="d-block btn-left">
@@ -624,19 +680,26 @@ const screenEffectOptions = [
 
 const charaMoveOptions = [
   { label: "-", value: "" },
+  { label: "出現", value: "one-shot" },
   { label: "右入場", value: "enter-right" },
   { label: "左入場", value: "enter-left" },
+  { label: "フェードイン", value: "fade-in" },
   { label: "右退場", value: "leave-right" },
   { label: "左退場", value: "leave-left" },
+  { label: "フェードアウト", value: "fade-out" },
+  { label: "移動", value: "move" },
 ];
 
 const charaEffectOptions = [
   { label: "-", value: "" },
-  { label: "黒いオーラ", value: "black-aura" },
+  { label: "取り消す", value: "none" },
+  // { label: "黒いオーラ", value: "black-aura" },
+  { label: "姿を消す", value: "hide" },
+  { label: "姿を現す", value: "show-up" },
 ];
 
 const charaNameOptions = [
-  { label: "-", value: "" },
+  { label: "-", value: null },
   { label: "黒（ヘイ）", value: "hei" },
   { label: "紅（ホン）", value: "hon" },
   { label: "黄（ホァン）", value: "holan" },
@@ -648,7 +711,10 @@ const charaNameOptions = [
   { label: "橙（チォン）", value: "chon" },
   { label: "灰（フゥイ）", value: "fuyi" },
   { label: "銀（イン）", value: "inn" },
-  { label: "伊（イ）", value: "yi" },
+  { label: "伊（イ）", value: "" },
+  { label: "女子生徒", value: "" },
+  { label: "教師", value: "" },
+  { label: "手下", value: "" },
 ];
 
 const getCharacterFaceOptions = (characterId: string) => {
@@ -932,7 +998,8 @@ const honCharaFaceOptions = [
 ];
 
 const holanCharaFaceOptions = [
-  { label: "ノーマル//私服", value: "holan_school_uniform_normal.png" },
+  { label: "ノーマル//制服", value: "holan_school_uniform_normal.png" },
+  { label: "ノーマル//私服", value: "holan_private_clothes_normal.png" },
   { label: "ノーマル//ジャージ", value: "holan_tracksuit_normal.png" },
 
   { label: "笑う//制服", value: "holan_school_uniform_happy.png" },
@@ -965,6 +1032,8 @@ const holanCharaFaceOptions = [
     label: "難しい顔(考え込む)//私服",
     value: "holan_private_clothes_ponder.png",
   },
+
+  { label: "動揺//制服", value: "holan_school_uniform_disturbance.png" },
 
   {
     label: "驚き(ぽかんとする)//制服",
@@ -1023,6 +1092,9 @@ const ryuuCharaFaceOptions = [
   { label: "焦り//制服", value: "ryuu_school_uniform_impatience.png" },
   { label: "焦り//私服", value: "ryuu_private_clothes_impatience.png" },
 
+  { label: "難しい顔//制服", value: "ryuu_school_uniform_ponder.png" },
+  { label: "難しい顔//私服", value: "ryuu_private_clothes_ponder.png" },
+
   { label: "疑問//制服", value: "ryuu_school_uniform_question.png" },
   { label: "疑問//私服", value: "ryuu_private_clothes_question.png" },
 
@@ -1055,6 +1127,7 @@ const ranCharaFaceOptions = [
 ];
 
 const fenhonCharaFaceOptions = [
+  { label: "ノーマル//制服", value: "fenhon_school_uniform_normal.png" },
   { label: "ノーマル//私服", value: "fenhon_private_clothes_normal.png" },
 
   { label: "笑う//制服", value: "fenhon_school_uniform_happy.png" },
@@ -1094,6 +1167,7 @@ const paiCharaFaceOptions = [
     value: "pai_private_clothes_goggles_ponder.png",
   },
 
+  { label: "影", value: "pai_private_clothes_shadow.png" },
   { label: "ノーマル//私服", value: "pai_private_clothes_normal.png" },
   { label: "ノーマル//ジャージ", value: "pai_private_clothes_normal.png" },
 
@@ -1187,6 +1261,7 @@ const chonCharaFaceOptions = [
 ];
 
 const fuyiCharaFaceOptions = [
+  { label: "影", value: "fuyi_private_clothes_shadow.png" },
   { label: "ノーマル", value: "fuyi_private_clothes_normal.png" },
   { label: "怒り(凄む)(厳しい顔)", value: "fuyi_private_clothes_anger.png" },
   {
@@ -1288,6 +1363,10 @@ const backgroundOptions = [
     label: "40_灰組のアジト、黒の部屋、夜(明かり無し)",
     value: "ashes_hideout_black_room_nighttime_with_lights_off.png",
   },
+  {
+    label: "41_黒（くろ）",
+    value: "black.png",
+  },
 ];
 
 const seSoundOptions = [
@@ -1301,6 +1380,7 @@ const seSoundOptions = [
   { label: "机をドンと叩く", value: "Slapping the desk with a thud.mp3" },
   { label: "風に揺れる草木", value: "Grass and trees swaying in the wind.mp3" },
   { label: "黒板に書く音", value: "Chalk screeching.mp3" },
+  { label: "木々のざわめき", value: "Rustling of leaves.mp3" },
 ];
 
 const bgmSoundOptions = [
@@ -1335,6 +1415,7 @@ const bgmSoundOptions = [
 
 const stillOptions = [
   { label: "-", value: "" },
+  { label: "取り消す", value: "none" },
   {
     label:
       "写真。黒以外は薄い影(黒(くろ)ではなく限りなく薄い緑や水色。背景:ビル街、昼、青空)黒は17歳時のもの。",

@@ -27,6 +27,7 @@ export type Scenario = {
   voicePath: string;
   splashMessage: string;
   talkingCharacterId: string;
+  backCharacterId: string;
 
   choiceOptions: ChoiceOption[];
   characters: Character[];
@@ -43,7 +44,11 @@ export type Scenario = {
   isCharacterAllKill: boolean;
   isStopBGM: boolean;
   endingType: number;
+  sleep: boolean;
   fadeOut: boolean;
+  fadeOutBack: boolean;
+  fadeIn: boolean;
+  continueMessage: boolean;
 };
 
 export type Chapter = {
