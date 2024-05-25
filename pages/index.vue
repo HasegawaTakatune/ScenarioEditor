@@ -665,17 +665,20 @@ const refChoiceOptionChapterFilePath = ref();
 
 const positionOptions = [
   { label: "-", value: "" },
+  { label: "一番左端", value: { x: -12, y: 0, z: 0 } },
   { label: "左端", value: { x: -9, y: 0, z: 0 } },
   { label: "左", value: { x: -6, y: 0, z: 0 } },
   { label: "中央", value: { x: -3, y: 0, z: 0 } },
   { label: "右", value: { x: 0, y: 0, z: 0 } },
   { label: "右端", value: { x: 3, y: 0, z: 0 } },
+  { label: "一番右端", value: { x: 6, y: 0, z: 0 } },
 ];
 
 const screenEffectOptions = [
   { label: "-", value: "" },
   { label: "取り消す", value: "none" },
   { label: "色褪せた印象", value: "sepia-color" },
+  { label: "渦を巻く炎", value: "flame-vortex" },
 ];
 
 const charaMoveOptions = [
@@ -715,6 +718,7 @@ const charaNameOptions = [
   { label: "女子生徒", value: "" },
   { label: "教師", value: "" },
   { label: "手下", value: "" },
+  { label: "取引相手", value: "" },
 ];
 
 const getCharacterFaceOptions = (characterId: string) => {
@@ -893,8 +897,13 @@ const heiCharaFaceOptions = [
     label: "14 眠り//私服(目の下に隈)",
     value: "14_hei_private_clothes_sleep_dark_circles_non_highlight.png",
   },
+  { label: "14 まぶたを腫らして寝てる//私服", value: "14_hei_private_clothes_sleep_with_swollen_eyelids.png" },
 
   { label: "14 苦し気//私服", value: "14_hei_private_clothes_painful.png" },
+
+  { label: "14 真剣//私服", value: "14_hei_private_clothes_earnest.png" },
+
+  { label: "14 呆れ//私服", value: "14_hei_private_clothes_ridiculous.png" },
 
   { label: "17 ノーマル//制服", value: "17_hei_school_uniform_normal.png" },
   { label: "17 ノーマル//私服", value: "17_hei_private_clothes.png" },
@@ -926,10 +935,10 @@ const heiCharaFaceOptions = [
   { label: "17 泣く//私服", value: "17_hei_private_clothes_cry.png" },
 
   { label: "17 疑問//制服", value: "17_hei_school_uniform_question.png" },
-  { label: "17 疑問//私服", value: "17_hei_private_clothes_question.png" },
+  { label: "17 疑問(考える)//私服", value: "17_hei_private_clothes_question.png" },
 
   { label: "17 照れ//制服", value: "17_hei_school_uniform_feel_shy.png" },
-  { label: "17 照れ//私服", value: "17_hei_private_clothes_feel_shy.png" },
+  { label: "17 照れ(恥ずかしい)//私服", value: "17_hei_private_clothes_feel_shy.png" },
 
   {
     label: "17 動揺(戸惑う)(おどおど)(焦り)//制服",
@@ -952,6 +961,11 @@ const heiCharaFaceOptions = [
   {
     label: "17 悲しげ(しょんぼり)//私服",
     value: "17_hei_private_clothes_sadness.png",
+  },
+
+  {
+    label: "17 青ざめる(恐怖)//私服",
+    value: "17_hei_private_clothes_fear.png",
   },
 
   { label: "17 耐える//私服", value: "17_hei_private_clothes_endure.png" },
@@ -995,6 +1009,8 @@ const honCharaFaceOptions = [
   { label: "苦し気//私服", value: "hon_private_clothes_painful.png" },
 
   { label: "呆れ//制服", value: "hon_school_uniform_ridiculous.png" },
+
+  { label: "必死//私服", value: "hon_private_clothes_desperately.png" },
 ];
 
 const holanCharaFaceOptions = [
@@ -1059,6 +1075,8 @@ const holanCharaFaceOptions = [
 
   { label: "呆れ//制服", value: "holan_school_uniform_ridiculous.png" },
   { label: "呆れ//私服", value: "holan_private_clothes_ridiculous.png" },
+
+  { label: "呆気にとられる//私服", value: "holan_private_clothes_be_taken_aback.png" },
 
   {
     label: "開き直る//私服",
@@ -1218,6 +1236,10 @@ const zuuCharaFaceOptions = [
   { label: "15 照れ", value: "15_zuu_private_clothes_feel_shy.png" },
   { label: "15 驚き", value: "15_zuu_private_clothes_surprise.png" },
 
+  { label: "15 真剣", value: "15_zuu_private_clothes_earnest.png" },
+  { label: "15 難しい顔", value: "15_zuu_private_clothes_ponder.png" },
+  { label: "15 必死", value: "15_zuu_private_clothes_desperately.png" },
+
   { label: "18 ノーマル", value: "18_zuu_private_clothes_normal.png" },
   {
     label: "18 ノーマル(髪の毛切った)",
@@ -1251,13 +1273,15 @@ const chonCharaFaceOptions = [
   { label: "疑問", value: "chon_private_clothes_question.png" },
   { label: "眉を下げる", value: "chon_private_clothes_down_eyebrows.png" },
   { label: "怒り", value: "chon_private_clothes_anger.png" },
-  { label: "焦り", value: "chon_private_clothes_impatience.png" },
+  { label: "焦り(あわてる)", value: "chon_private_clothes_impatience.png" },
   { label: "呆れ", value: "chon_private_clothes_ridiculous.png" },
   { label: "真剣", value: "chon_private_clothes_earnest.png" },
   { label: "凄む", value: "chon_private_clothes_threaten.png" },
   { label: "眠り", value: "chon_private_clothes_sleep.png" },
+  { label: "寝ぼけ", value: "chon_private_clothes_sleepiness.png" },
   { label: "驚き", value: "chon_private_clothes_surprise.png" },
   { label: "不満", value: "chon_private_clothes_dissatisfaction.png" },
+  { label: "不機嫌", value: "chon_private_clothes_grumpy.png" },
 ];
 
 const fuyiCharaFaceOptions = [
