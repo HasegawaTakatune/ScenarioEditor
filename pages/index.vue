@@ -187,7 +187,7 @@
           name="talkingCharacterId"
           @input="
             (event: any) => {
-              const option = charaNameOptions.find((vl) => vl.value == event.target.value);
+              const option = charaNameOptions.find((vl) => vl.label == event.target.value);
               if (option) {
                 if(option.value == null){
                   value.name = '';
@@ -206,7 +206,7 @@
           <option
             v-for="(option, idx) in charaNameOptions"
             :key="idx"
-            :value="option.value"
+            :value="option.label"
           >
             {{ option.label }}
           </option>
@@ -699,6 +699,7 @@ const charaEffectOptions = [
   // { label: "黒いオーラ", value: "black-aura" },
   { label: "姿を消す", value: "hide" },
   { label: "姿を現す", value: "show-up" },
+  { label: "振動", value: "shaking" },
 ];
 
 const charaNameOptions = [
@@ -717,8 +718,15 @@ const charaNameOptions = [
   { label: "伊（イ）", value: "" },
   { label: "女子生徒", value: "" },
   { label: "教師", value: "" },
+  { label: "先生", value: "" },
   { label: "手下", value: "" },
   { label: "取引相手", value: "" },
+  { label: "黒　夜鈴（ヘイ　イーリン）", value: "hei" },
+  { label: "朱　暁明（シュウ　シャミン）", value: "hon" },
+  { label: "黄　飛龍（ホァン　フェイロン）", value: "holan" },
+  { label: "胡　青蔚（コ　チンウェイ）", value: "ran" },
+  { label: "柳　泰然（リーウ　タイラン）", value: "ryuu" },
+  { label: "李　峰花（リ　ホンファ）", value: "fenhon" },
 ];
 
 const getCharacterFaceOptions = (characterId: string) => {
@@ -1001,6 +1009,7 @@ const honCharaFaceOptions = [
 
   { label: "照れ//制服", value: "hon_school_uniform_feel_shy.png" },
 
+  { label: "驚き//制服", value: "hon_school_uniform_surprise.png" },
   { label: "驚き//私服", value: "hon_private_clothes_surprise.png" },
 
   { label: "諦め//制服", value: "hon_school_uniform_give_up.png" },
@@ -1077,6 +1086,17 @@ const holanCharaFaceOptions = [
   { label: "呆れ//私服", value: "holan_private_clothes_ridiculous.png" },
 
   { label: "呆気にとられる//私服", value: "holan_private_clothes_be_taken_aback.png" },
+  
+  { label: "心配//私服", value: "holan_private_clothes_worry.png" },
+
+  {
+    label: "疑問//制服",
+    value: "holan_school_uniform_question.png",
+  },
+  {
+    label: "疑問//私服",
+    value: "holan_private_clothes_question.png",
+  },
 
   {
     label: "開き直る//私服",
@@ -1137,10 +1157,12 @@ const ranCharaFaceOptions = [
 
   { label: "心配//制服", value: "ran_school_uniform_worry.png" },
 
+  { label: "戸惑い//制服", value: "ran_school_uniform_bewildered.png" },
   { label: "戸惑い//私服", value: "ran_private_clothes_bewildered.png" },
 
   { label: "疑問//私服", value: "ran_private_clothes_question.png" },
 
+  { label: "怒り//制服", value: "ran_school_uniform_anger.png" },
   { label: "怒り//私服", value: "ran_private_clothes_anger.png" },
 ];
 
@@ -1297,6 +1319,7 @@ const fuyiCharaFaceOptions = [
   { label: "爆笑", value: "fuyi_private_clothes_big_smile.png" },
   { label: "嘲笑", value: "fuyi_private_clothes_scoff.png" },
   { label: "呆れ", value: "fuyi_private_clothes_ridiculous.png" },
+  { label: "驚き", value: "fuyi_private_clothes_surprise.png" },
 ];
 
 const innCharaFaceOptions = [
@@ -1390,6 +1413,10 @@ const backgroundOptions = [
   {
     label: "41_黒（くろ）",
     value: "black.png",
+  },
+  {
+    label: "42_薄橙一色",
+    value: "light_orange.png",
   },
 ];
 
