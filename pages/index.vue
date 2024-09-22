@@ -156,12 +156,12 @@
 
       <div class="edit-input">
         <label>BGMを止める</label>
-        <input type="checkbox" v-model="value.isCharacterAllKill" />
+        <input type="checkbox" v-model="value.isStopBGM" />
       </div>
 
       <div class="edit-input">
         <label>立ち絵全消し</label>
-        <input type="checkbox" v-model="value.isStopBGM" />
+        <input type="checkbox" v-model="value.isCharacterAllKill" />
       </div>
 
       <div class="edit-input">
